@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Footer } from "../../../../shared/footer/footer";
 import { TrackCardComponent } from "../../components/track-card-component/track-card-component";
 import { Header } from "../../../../shared/header/header";
 
 @Component({
   selector: 'app-music-page',
-  imports: [Footer, TrackCardComponent, Header],
+  imports: [Footer, TrackCardComponent, Header, RouterLink],
   templateUrl: './music-page.html',
   styleUrl: './music-page.scss',
 })

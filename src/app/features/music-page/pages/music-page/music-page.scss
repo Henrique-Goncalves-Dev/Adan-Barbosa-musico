@@ -2,6 +2,7 @@ $primary-color: #0055FF;
 $primary-hover: #0044DD;
 $text-dark: #121212;
 $bg-light: #F9F9F9;
+$mobile: 600px;
 
 .page-wrapper {
   min-height: 100vh;
@@ -26,6 +27,23 @@ $bg-light: #F9F9F9;
 
   &.margin-zero {
     margin: 0;
+  }
+}
+
+/* ── BACK BUTTON ──────────────────────────────────────────────────── */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: $primary-color;
+  text-decoration: none;
+  margin-bottom: 16px;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.7;
   }
 }
 
@@ -216,5 +234,69 @@ $bg-light: #F9F9F9;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 24px;
+  }
+}
+
+/* ── RESPONSIVE ───────────────────────────────────────────────────── */
+@media (max-width: $mobile) {
+  .page-hero {
+    padding: 48px 0 36px;
+
+    .hero-container {
+      padding: 0 20px;
+    }
+  }
+
+  .shows-list-section {
+    padding: 48px 0 64px;
+
+    .list-container {
+      padding: 0 16px;
+    }
+
+    .shows-table {
+      border-radius: 8px;
+
+      .show-row {
+        padding: 16px;
+        gap: 12px;
+      }
+
+      .info-block {
+        min-width: 120px;
+
+        .venue {
+          font-size: 14px;
+        }
+      }
+
+      .cta-block {
+        width: auto;
+
+        .tickets-btn {
+          padding: 7px 14px;
+          font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .music-section {
+    padding: 60px 0;
+
+    .music-container {
+      padding: 0 20px;
+    }
+
+    .music-header {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .tracks-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
   }
 }

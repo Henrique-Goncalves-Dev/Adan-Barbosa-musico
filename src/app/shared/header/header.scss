@@ -4,10 +4,10 @@ $text-dark: #121212;
 .header {
   position: sticky;
   top: 0;
-  z-index: 100;
-  background-color: #FFFFFF;
-  border-bottom: '1px solid rgba(0, 0, 0, 0.07)';
-  backdrop-filter: blur(8px);
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
 
   .header-container {
     max-width: 1200px;
@@ -52,36 +52,49 @@ $text-dark: #121212;
       &:hover,
       &.active {
         color: $primary-color;
+
       }
     }
   }
 
   .mobile-menu-btn {
     display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-    color: $text-dark;
-
-    @media (max-width: 768px) {
-      display: block;
-    }
   }
 
-  .mobile-nav {
-    background-color: #FFFFFF;
-    border-top: 1px solid rgba(0, 0, 0, 0.07);
-    padding: 16px 32px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  .mobile-balloon-nav {
+    display: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 8px;
+    padding: 10px 16px;
+    pointer-events: none;
 
-    .mobile-link {
-      font-size: 16px;
-      font-weight: 500;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .balloon-link {
+      pointer-events: auto;
+      flex-shrink: 0;
+      padding: 7px 14px;
+      border-radius: 8px;
+      background: rgba(242, 242, 242, 0.55);
+      backdrop-filter: blur(12px);
       color: $text-dark;
+      font-size: 14px;
+      font-weight: 500;
       text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s;
+
+      &:hover {
+        background: #E5E5E5;
+      }
+
+    }
+
+    @media (max-width: 768px) {
+      display: flex;
     }
   }
 }

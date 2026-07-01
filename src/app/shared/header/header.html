@@ -29,14 +29,12 @@
     </button>
   </div>
 
-  <!-- Mobile Menu Drawer -->
-  @if (menuOpen) {
-  <div class="mobile-nav">
+  <!-- Mobile Balloon Nav -->
+  <div class="mobile-balloon-nav">
     @for (link of navLinks; track link.label) {
-    <a [href]="link.href" (click)="menuOpen = false" class="mobile-link">
+    <a [href]="link.href" class="balloon-link">
       {{ link.label }}
     </a>
     }
   </div>
-  }
 </header>
