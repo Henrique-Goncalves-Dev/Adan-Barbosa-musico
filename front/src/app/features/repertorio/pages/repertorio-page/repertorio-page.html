@@ -1,0 +1,69 @@
+<div class="page-wrapper">
+  <app-header></app-header>
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="hero-container">
+      <a routerLink="/" class="back-btn">← Voltar</a>
+      <div class="hero-tag">Repertório</div>
+      <h1 class="hero-title">Músicas</h1>
+      <p class="hero-description">Confira o repertório completo por categoria.</p>
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <section class="repertorio-section">
+    <div class="repertorio-container">
+
+      @if (repertoire.loading()) {
+      <div class="empty-state"><p>Carregando...</p></div>
+      } @else {
+
+      <div class="categories-tabs">
+        @for (cat of repertoire.categories(); track cat.id) {
+        <button
+          type="button"
+          class="category-tab"
+          [class.active]="activeCategory === cat.id"
+          (click)="setCategory(cat.id)">
+          <span class="tab-icon">{{ cat.icon }}</span>
+          <span class="tab-label">{{ cat.name }}</span>
+          <span class="tab-count">{{ cat.songs.length }}</span>
+        </button>
+        }
+      </div>
+
+      @if (currentCategory) {
+      <div class="songs-list">
+        @if (currentCategory.songs.length === 0) {
+        <div class="empty-state">
+          <p>Em breve músicas nesta categoria.</p>
+        </div>
+        } @else {
+        @for (song of currentCategory.songs; track song.id; let i = $index) {
+        <div class="song-row">
+          <div class="song-number">{{ i + 1 }}</div>
+          <div class="song-info">
+            <div class="song-title">{{ song.title }}</div>
+            <div class="song-artist">{{ song.artist }}</div>
+          </div>
+          <div class="song-meta">
+            @if (song.key) {
+            <span class="key-badge">{{ song.key }}</span>
+            }
+            @if (song.capo) {
+            <span class="capo-badge">Capo {{ song.capo }}</span>
+            }
+          </div>
+        </div>
+        }
+        }
+      </div>
+      }
+      }
+
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</div>

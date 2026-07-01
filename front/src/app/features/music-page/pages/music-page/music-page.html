@@ -1,0 +1,109 @@
+<div class="page-wrapper">
+  <app-header></app-header>
+
+  <div class="page-hero">
+    <div class="hero-container">
+      <a routerLink="/" class="back-btn">← Voltar</a>
+      <div class="hero-tag">Agenda Completa</div>
+      <h1 class="hero-title">Shows & Músicas</h1>
+    </div>
+  </div>
+
+  <section class="shows-list-section">
+    <div class="list-container">
+      <h2 class="section-heading">Todas as Datas</h2>
+      <div class="shows-table">
+        @for (show of allShows(); track show.id; let first = $first) {
+          <div class="show-row" [class.no-border]="first">
+            <div class="date-block">
+              <div class="month">{{ show.month }}</div>
+              <div class="day">{{ show.day }}</div>
+            </div>
+            <div class="vertical-divider"></div>
+            <div class="info-block">
+              <div class="venue">{{ show.venue }}</div>
+              <div class="city">{{ show.city }}{{ show.time ? ' · ' + show.time : '' }}</div>
+              @if (show.street) { <div class="street">{{ show.street }}</div> }
+            </div>
+            <div class="status-badge" [class.available]="show.available" [class.sold-out]="!show.available">
+              {{ show.available ? 'Disponível' : 'Esgotado' }}
+            </div>
+            <div class="cta-block">
+              @if (show.available) {
+                <a href="#" class="tickets-btn">Tickets</a>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="music-section">
+    <div class="music-container">
+      <div class="music-header">
+        <div>
+          <div class="hero-tag">Discografia</div>
+          <h2 class="section-heading margin-zero">Músicas</h2>
+        </div>
+      </div>
+
+      @if (albums().length > 0) {
+      <div class="albums-section">
+        <h3 class="subsection-heading">Álbuns</h3>
+        <div class="albums-grid">
+          @for (album of albums(); track album.id) {
+          <div class="album-card">
+            <div class="album-info">
+              <div class="album-name">{{ album.name }}</div>
+              <div class="album-year">{{ album.year }}</div>
+            </div>
+            <div class="album-links">
+              @if (album.youtubeUrl) {
+              <a [href]="album.youtubeUrl" target="_blank" rel="noopener" class="link-badge youtube">YouTube</a>
+              }
+              @if (album.spotifyUrl) {
+              <a [href]="album.spotifyUrl" target="_blank" rel="noopener" class="link-badge spotify">Spotify</a>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+
+      @if (tracks().length > 0) {
+      <div class="tracks-section">
+        <h3 class="subsection-heading">Singles & EPs</h3>
+        <div class="tracks-grid">
+          @for (track of tracks(); track track.id) {
+          <div class="track-card">
+            <div class="track-type">{{ track.type }}</div>
+            <div class="track-name">{{ track.title }}</div>
+            @if (track.type === 'musica' && track.albumId) {
+            <div class="track-album">
+              @for (album of albums(); track album.id) {
+                @if (album.id === track.albumId) {
+                <span>{{ album.name }}</span>
+                }
+              }
+            </div>
+            }
+            <div class="track-links">
+              @if (track.youtubeUrl) {
+              <a [href]="track.youtubeUrl" target="_blank" rel="noopener" class="link-badge youtube">YouTube</a>
+              }
+              @if (track.spotifyUrl) {
+              <a [href]="track.spotifyUrl" target="_blank" rel="noopener" class="link-badge spotify">Spotify</a>
+              }
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</div>

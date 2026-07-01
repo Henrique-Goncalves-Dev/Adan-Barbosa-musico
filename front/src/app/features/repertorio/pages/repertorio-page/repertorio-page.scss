@@ -1,0 +1,119 @@
+$primary-color: #0055FF;
+$primary-hover: #0044DD;
+$text-dark: #121212;
+$bg-light: #F9F9F9;
+$mobile: 600px;
+
+.page-wrapper { min-height: 100vh; background-color: #fff; }
+
+.hero-tag {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: $primary-color; margin-bottom: 12px;
+}
+
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 14px; font-weight: 600; color: $primary-color;
+  text-decoration: none; margin-bottom: 16px; transition: opacity 0.15s;
+  &:hover { opacity: 0.7; }
+}
+
+.page-hero {
+  background-color: $bg-light; padding: 64px 0 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  .hero-container {
+    max-width: 1200px; margin: 0 auto; padding: 0 32px;
+    .hero-title {
+      font-size: clamp(32px, 5vw, 56px); font-weight: 800;
+      color: $text-dark; letter-spacing: -0.03em; margin: 0;
+    }
+    .hero-description {
+      font-size: 16px; color: #666; margin: 8px 0 0; line-height: 1.6;
+    }
+  }
+}
+
+.repertorio-section { padding: 60px 0 100px; }
+.repertorio-container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+
+.categories-tabs {
+  display: flex; gap: 8px; margin-bottom: 48px;
+  overflow-x: auto; scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.category-tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 8px;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  background-color: #fff; cursor: pointer;
+  font-family: Inter, sans-serif; font-size: 14px; font-weight: 600;
+  color: $text-dark; white-space: nowrap; transition: all 0.15s;
+  .tab-icon { font-size: 16px; }
+  .tab-count {
+    font-size: 12px; font-weight: 700; color: #999;
+    background: $bg-light; padding: 2px 8px; border-radius: 12px;
+  }
+  &:hover { border-color: $primary-color; }
+  &.active {
+    background-color: $primary-color; color: #fff;
+    border-color: $primary-color;
+    .tab-count { background: rgba(255, 255, 255, 0.2); color: #fff; }
+  }
+}
+
+.songs-list {
+  border: 1px solid rgba(0, 0, 0, 0.08); border-radius: 12px; overflow: hidden;
+}
+
+.song-row {
+  display: flex; align-items: center; gap: 20px;
+  padding: 16px 24px; border-top: 1px solid rgba(0, 0, 0, 0.07);
+  background-color: #fff; transition: background-color 0.15s;
+  &:first-child { border-top: none; }
+  &:hover { background-color: $bg-light; }
+}
+
+.song-number {
+  min-width: 28px; font-size: 14px; font-weight: 700;
+  color: #bbb; text-align: center;
+}
+
+.song-info { flex: 1; min-width: 0; }
+.song-title {
+  font-size: 15px; font-weight: 700; color: $text-dark;
+  margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.song-artist {
+  font-size: 13px; color: #888;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.song-meta { display: flex; gap: 8px; flex-shrink: 0; align-items: center; }
+
+.key-badge {
+  padding: 4px 10px; border-radius: 6px;
+  background-color: rgba(0, 85, 255, 0.08); color: $primary-color;
+  font-size: 12px; font-weight: 700;
+}
+
+.capo-badge {
+  padding: 4px 10px; border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.06); color: #666;
+  font-size: 12px; font-weight: 600;
+}
+
+.empty-state {
+  padding: 60px 24px; text-align: center;
+  color: #999; font-size: 15px;
+}
+
+@media (max-width: $mobile) {
+  .page-hero { padding: 48px 0 36px; .hero-container { padding: 0 20px; } }
+  .repertorio-section { padding: 40px 0 64px; }
+  .repertorio-container { padding: 0 16px; }
+  .categories-tabs { margin-bottom: 32px; gap: 6px; }
+  .category-tab { padding: 8px 14px; font-size: 13px; }
+  .song-row { padding: 14px 16px; gap: 14px; }
+  .song-number { min-width: 24px; font-size: 13px; }
+}

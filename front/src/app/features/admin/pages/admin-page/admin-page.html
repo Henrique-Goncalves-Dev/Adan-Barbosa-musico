@@ -1,0 +1,421 @@
+<div class="page-wrapper">
+  <app-header></app-header>
+
+  @if (auth.loading()) {
+  <div class="loading-state">Carregando...</div>
+  } @else if (!auth.isLoggedIn()) {
+  <div class="login-page">
+    <div class="login-card">
+      <div class="section-tag">Admin</div>
+      <h1 class="login-title">Entrar</h1>
+      <p class="login-desc">Digite suas credenciais para acessar o painel.</p>
+      @if (auth.error()) { <div class="error-msg">{{ auth.error() }}</div> }
+      <form (ngSubmit)="login()" class="login-form">
+        <div class="form-group">
+          <label>Usuário</label>
+          <input type="text" [(ngModel)]="username" name="username" placeholder="Seu usuário" required class="form-input" />
+        </div>
+        <div class="form-group">
+          <label>Senha</label>
+          <input type="password" [(ngModel)]="password" name="password" placeholder="Sua senha" required class="form-input" />
+        </div>
+        <button type="submit" class="primary-btn submit-btn">Entrar</button>
+      </form>
+    </div>
+  </div>
+  } @else {
+  <div class="admin-page">
+    <div class="admin-container">
+      <div class="admin-header">
+        <div>
+          <div class="section-tag">Painel</div>
+          <h1 class="admin-title">Gerenciar</h1>
+        </div>
+        <div class="admin-actions">
+          <span class="user-badge">{{ auth.displayName() }}</span>
+          <button type="button" (click)="logout()" class="outline-btn">Sair</button>
+        </div>
+      </div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab" [class.active]="activeTab === 'shows'" (click)="activeTab = 'shows'">Shows</button>
+        <button class="tab" [class.active]="activeTab === 'discografia'" (click)="activeTab = 'discografia'">Discografia</button>
+        <button class="tab" [class.active]="activeTab === 'repertorio'" (click)="activeTab = 'repertorio'">Repertório</button>
+      </div>
+
+      <!-- ═══ TAB: SHOWS ═══ -->
+      @if (activeTab === 'shows') {
+      <div class="tab-content">
+        <div class="tab-header">
+          <h2>Shows</h2>
+          <button type="button" (click)="openAddShow()" class="primary-btn">+ Novo Show</button>
+        </div>
+        @if (shows.loading()) {
+        <div class="loading-state">Carregando...</div>
+        } @else if (shows.shows().length === 0) {
+        <div class="empty-state"><p>Nenhum show cadastrado.</p></div>
+        } @else {
+        <div class="data-table">
+          @for (show of shows.shows(); track show.id; let first = $first) {
+          <div class="data-row" [class.no-border]="first">
+            <div class="row-main">
+              <div class="date-block">
+                <div class="month">{{ show.month }}</div>
+                <div class="day">{{ show.day }}</div>
+              </div>
+              <div class="vertical-divider"></div>
+              <div class="info-block">
+                <div class="venue">{{ show.venue }}</div>
+                <div class="city">{{ show.city }} · {{ show.year }}{{ show.time ? ' · ' + show.time : '' }}</div>
+                @if (show.street) { <div class="street">{{ show.street }}</div> }
+              </div>
+              <div class="status-badge" [class.available]="show.available" [class.sold-out]="!show.available">
+                {{ show.available ? 'Disponível' : 'Esgotado' }}
+              </div>
+              <div class="row-actions">
+                <button type="button" (click)="openEditShow(show)" class="icon-btn edit-btn">Editar</button>
+                <button type="button" (click)="askDeleteShow(show.id)" class="icon-btn delete-btn">Remover</button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+      }
+
+      <!-- ═══ TAB: DISCOGRAFIA ═══ -->
+      @if (activeTab === 'discografia') {
+      <div class="tab-content">
+        <!-- Álbuns -->
+        <div class="tab-header">
+          <h2>Álbuns</h2>
+          <button type="button" (click)="openAddAlbum()" class="primary-btn">+ Novo Álbum</button>
+        </div>
+        @if (albums.loading()) {
+        <div class="loading-state">Carregando...</div>
+        } @else if (albums.albums().length === 0) {
+        <div class="empty-state"><p>Nenhum álbum cadastrado.</p></div>
+        } @else {
+        <div class="data-table">
+          @for (album of albums.albums(); track album.id; let first = $first) {
+          <div class="data-row" [class.no-border]="first">
+            <div class="row-main">
+              <div class="info-block">
+                <div class="venue">{{ album.name }}</div>
+                <div class="city">{{ album.year }}{{ album.youtubeUrl ? ' · YouTube' : '' }}{{ album.spotifyUrl ? ' · Spotify' : '' }}</div>
+              </div>
+              <div class="row-actions">
+                <button type="button" (click)="openEditAlbum(album)" class="icon-btn edit-btn">Editar</button>
+                <button type="button" (click)="askDeleteAlbum(album.id)" class="icon-btn delete-btn">Remover</button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+        }
+
+        <!-- Músicas -->
+        <div class="tab-header" style="margin-top: 48px;">
+          <h2>Músicas</h2>
+          <button type="button" (click)="openAddTrack()" class="primary-btn">+ Nova Música</button>
+        </div>
+        @if (tracks.loading()) {
+        <div class="loading-state">Carregando...</div>
+        } @else if (tracks.tracks().length === 0) {
+        <div class="empty-state"><p>Nenhuma música cadastrada.</p></div>
+        } @else {
+        <div class="data-table">
+          @for (track of tracks.tracks(); track track.id; let first = $first) {
+          <div class="data-row" [class.no-border]="first">
+            <div class="row-main">
+              <span class="type-badge" [attr.data-type]="track.type">{{ track.type }}</span>
+              <div class="info-block">
+                <div class="venue">{{ track.title }}</div>
+                <div class="city">{{ track.type === 'musica' ? getAlbumName(track.albumId) : track.year }}</div>
+              </div>
+              <div class="row-actions">
+                <button type="button" (click)="openEditTrack(track)" class="icon-btn edit-btn">Editar</button>
+                <button type="button" (click)="askDeleteTrack(track.id)" class="icon-btn delete-btn">Remover</button>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+      }
+
+      <!-- ═══ TAB: REPERTÓRIO ═══ -->
+      @if (activeTab === 'repertorio') {
+      <div class="tab-content">
+        <div class="tab-header">
+          <h2>Categorias</h2>
+          <button type="button" (click)="openAddCategory()" class="primary-btn">+ Nova Categoria</button>
+        </div>
+        @if (repertoire.loading()) {
+        <div class="loading-state">Carregando...</div>
+        } @else if (repertoire.categories().length === 0) {
+        <div class="empty-state"><p>Nenhuma categoria cadastrada.</p></div>
+        } @else {
+        @for (cat of repertoire.categories(); track cat.id) {
+        <div class="category-block">
+          <div class="category-header">
+            <span class="cat-icon">{{ cat.icon }}</span>
+            <span class="cat-name">{{ cat.name }}</span>
+            <span class="cat-count">{{ cat.songs.length }} músicas</span>
+            <div class="row-actions">
+              <button type="button" (click)="openAddSong(cat.id)" class="icon-btn edit-btn">+ Música</button>
+              <button type="button" (click)="askDeleteCategory(cat.id)" class="icon-btn delete-btn">Remover</button>
+            </div>
+          </div>
+          @if (cat.songs.length > 0) {
+          <div class="songs-sublist">
+            @for (song of cat.songs; track song.id) {
+            <div class="song-row">
+              <div class="song-info">
+                <span class="song-title">{{ song.title }}</span>
+                <span class="song-artist">{{ song.artist }}</span>
+              </div>
+              <div class="song-meta">
+                @if (song.key) { <span class="key-badge">{{ song.key }}</span> }
+                @if (song.capo) { <span class="capo-badge">Capo {{ song.capo }}</span> }
+                <button type="button" (click)="askDeleteSong(cat.id, song.id)" class="icon-btn delete-btn small">✕</button>
+              </div>
+            </div>
+            }
+          </div>
+          }
+        </div>
+        }
+        }
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- ═══ MODAL: Show Form ═══ -->
+  @if (showFormVisible) {
+  <div class="modal-overlay" (click)="closeShowForm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close" (click)="closeShowForm()">✕</button>
+      <div class="modal-header"><h2>{{ editingShowId ? 'Editar Show' : 'Novo Show' }}</h2></div>
+      <form (ngSubmit)="saveShow()" class="modal-form">
+        <div class="form-row">
+          <div class="form-group"><label>Mês</label>
+            <select [(ngModel)]="showForm.month" name="month" required class="form-input">
+              <option value="">Selecione</option>
+              @for (m of months; track m.value) { <option [value]="m.value">{{ m.label }}</option> }
+            </select>
+          </div>
+          <div class="form-group"><label>Dia</label><input type="text" [(ngModel)]="showForm.day" name="day" placeholder="12" required class="form-input" /></div>
+          <div class="form-group"><label>Ano</label><input type="text" [(ngModel)]="showForm.year" name="year" placeholder="2026" required class="form-input" /></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Cidade</label><input type="text" [(ngModel)]="showForm.city" name="city" placeholder="Belém" required class="form-input" /></div>
+          <div class="form-group"><label>Horário</label><input type="time" [(ngModel)]="showForm.time" name="time" class="form-input" /></div>
+        </div>
+        <div class="form-group"><label>Local</label><input type="text" [(ngModel)]="showForm.venue" name="venue" placeholder="Parque da Cidade" required class="form-input" /></div>
+        <div class="form-group"><label>Rua / Endereço</label><input type="text" [(ngModel)]="showForm.street" name="street" placeholder="Av...." class="form-input" /></div>
+        <div class="form-group toggle-group">
+          <label class="toggle-label">
+            <input type="checkbox" [(ngModel)]="showForm.available" name="available" />
+            <span class="toggle-switch"></span>
+            <span>Disponível para venda</span>
+          </label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" (click)="closeShowForm()" class="outline-btn">Cancelar</button>
+          <button type="submit" class="primary-btn">{{ editingShowId ? 'Salvar' : 'Adicionar' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- ═══ MODAL: Album Form ═══ -->
+  @if (albumFormVisible) {
+  <div class="modal-overlay" (click)="closeAlbumForm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close" (click)="closeAlbumForm()">✕</button>
+      <div class="modal-header"><h2>{{ editingAlbumId ? 'Editar Álbum' : 'Novo Álbum' }}</h2></div>
+      <form (ngSubmit)="saveAlbum()" class="modal-form">
+        <div class="form-group"><label>Nome do Álbum</label><input type="text" [(ngModel)]="albumForm.name" name="name" required class="form-input" /></div>
+        <div class="form-group"><label>Ano</label><input type="text" [(ngModel)]="albumForm.year" name="year" class="form-input" /></div>
+        <div class="form-group"><label>Link YouTube</label><input type="url" [(ngModel)]="albumForm.youtubeUrl" name="youtubeUrl" placeholder="https://..." class="form-input" /></div>
+        <div class="form-group"><label>Link Spotify</label><input type="url" [(ngModel)]="albumForm.spotifyUrl" name="spotifyUrl" placeholder="https://..." class="form-input" /></div>
+        <div class="modal-actions">
+          <button type="button" (click)="closeAlbumForm()" class="outline-btn">Cancelar</button>
+          <button type="submit" class="primary-btn">{{ editingAlbumId ? 'Salvar' : 'Adicionar' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- ═══ MODAL: Track Form ═══ -->
+  @if (trackFormVisible) {
+  <div class="modal-overlay" (click)="closeTrackForm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close" (click)="closeTrackForm()">✕</button>
+      <div class="modal-header"><h2>{{ editingTrackId ? 'Editar Música' : 'Nova Música' }}</h2></div>
+      <form (ngSubmit)="saveTrack()" class="modal-form">
+        <div class="form-group"><label>Tipo</label>
+          <div class="radio-group">
+            <label class="radio-label"><input type="radio" [(ngModel)]="trackForm.type" name="type" value="album" /> Álbum</label>
+            <label class="radio-label"><input type="radio" [(ngModel)]="trackForm.type" name="type" value="single" /> Single</label>
+            <label class="radio-label"><input type="radio" [(ngModel)]="trackForm.type" name="type" value="musica" /> Música</label>
+            <label class="radio-label"><input type="radio" [(ngModel)]="trackForm.type" name="type" value="ep" /> EP</label>
+          </div>
+        </div>
+        <div class="form-group"><label>Nome</label><input type="text" [(ngModel)]="trackForm.title" name="title" required class="form-input" /></div>
+        @if (trackForm.type === 'musica') {
+        <div class="form-group"><label>Álbum</label>
+          <select [(ngModel)]="trackForm.albumId" name="albumId" required class="form-input">
+            <option value="">Selecione o álbum</option>
+            @for (album of albums.albums(); track album.id) { <option [value]="album.id">{{ album.name }}</option> }
+          </select>
+        </div>
+        }
+        @if (trackForm.type !== 'musica') {
+        <div class="form-group"><label>Ano</label><input type="text" [(ngModel)]="trackForm.year" name="year" class="form-input" /></div>
+        <div class="form-group"><label>Link YouTube</label><input type="url" [(ngModel)]="trackForm.youtubeUrl" name="youtubeUrl" placeholder="https://..." class="form-input" /></div>
+        <div class="form-group"><label>Link Spotify</label><input type="url" [(ngModel)]="trackForm.spotifyUrl" name="spotifyUrl" placeholder="https://..." class="form-input" /></div>
+        }
+        <div class="modal-actions">
+          <button type="button" (click)="closeTrackForm()" class="outline-btn">Cancelar</button>
+          <button type="submit" class="primary-btn">{{ editingTrackId ? 'Salvar' : 'Adicionar' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- ═══ MODAL: Category Form ═══ -->
+  @if (categoryFormVisible) {
+  <div class="modal-overlay" (click)="closeCategoryForm()">
+    <div class="modal-content small-modal" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close" (click)="closeCategoryForm()">✕</button>
+      <div class="modal-header"><h2>Nova Categoria</h2></div>
+      <form (ngSubmit)="saveCategory()" class="modal-form">
+        <div class="form-row">
+          <div class="form-group"><label>Ícone (emoji)</label><input type="text" [(ngModel)]="categoryForm.icon" name="icon" class="form-input" maxlength="4" /></div>
+          <div class="form-group" style="flex:2"><label>Nome</label><input type="text" [(ngModel)]="categoryForm.name" name="name" required class="form-input" placeholder="Ex: MPB" /></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" (click)="closeCategoryForm()" class="outline-btn">Cancelar</button>
+          <button type="submit" class="primary-btn">Criar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- ═══ MODAL: Song Form (with search) ═══ -->
+  @if (songFormVisible) {
+  <div class="modal-overlay" (click)="closeSongForm()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close" (click)="closeSongForm()">✕</button>
+      <div class="modal-header"><h2>Adicionar Música</h2></div>
+
+      <div class="search-box">
+        <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearch()" placeholder="Buscar música no iTunes..." class="form-input" />
+        @if (search.searching()) { <div class="searching">Buscando...</div> }
+        @if (search.results().length > 0) {
+        <div class="search-results">
+          @for (result of search.results(); track result.title + result.artist) {
+          <button type="button" class="search-result" (click)="selectSearchResult(result)">
+            <span class="result-title">{{ result.title }}</span>
+            <span class="result-artist">{{ result.artist }}</span>
+          </button>
+          }
+        </div>
+        }
+      </div>
+
+      <form (ngSubmit)="saveSong()" class="modal-form" style="margin-top: 16px;">
+        <div class="form-group"><label>Título</label><input type="text" [(ngModel)]="songForm.title" name="title" required class="form-input" /></div>
+        <div class="form-group"><label>Artista / Banda</label><input type="text" [(ngModel)]="songForm.artist" name="artist" required class="form-input" /></div>
+        <div class="form-row">
+          <div class="form-group"><label>Tonalidade</label><input type="text" [(ngModel)]="songForm.key" name="key" placeholder="Ex: Am" class="form-input" /></div>
+          <div class="form-group"><label>Capo</label><input type="text" [(ngModel)]="songForm.capo" name="capo" placeholder="Ex: 2" class="form-input" /></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" (click)="closeSongForm()" class="outline-btn">Cancelar</button>
+          <button type="submit" class="primary-btn">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+  <!-- ═══ CONFIRM DELETE MODALS ═══ -->
+  @if (confirmDeleteShowId) {
+  <div class="modal-overlay" (click)="cancelDeleteShow()">
+    <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+      <h2>Remover show?</h2>
+      <p>Essa ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button type="button" (click)="cancelDeleteShow()" class="outline-btn">Cancelar</button>
+        <button type="button" (click)="confirmDeleteShow()" class="danger-btn">Remover</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (confirmDeleteAlbumId) {
+  <div class="modal-overlay" (click)="cancelDeleteAlbum()">
+    <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+      <h2>Remover álbum?</h2>
+      <p>Essa ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button type="button" (click)="cancelDeleteAlbum()" class="outline-btn">Cancelar</button>
+        <button type="button" (click)="confirmDeleteAlbum()" class="danger-btn">Remover</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (confirmDeleteTrackId) {
+  <div class="modal-overlay" (click)="cancelDeleteTrack()">
+    <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+      <h2>Remover música?</h2>
+      <p>Essa ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button type="button" (click)="cancelDeleteTrack()" class="outline-btn">Cancelar</button>
+        <button type="button" (click)="confirmDeleteTrack()" class="danger-btn">Remover</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (confirmDeleteCategoryId && !confirmDeleteSongId) {
+  <div class="modal-overlay" (click)="cancelDeleteCategory()">
+    <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+      <h2>Remover categoria?</h2>
+      <p>Todas as músicas desta categoria serão removidas.</p>
+      <div class="modal-actions">
+        <button type="button" (click)="cancelDeleteCategory()" class="outline-btn">Cancelar</button>
+        <button type="button" (click)="confirmDeleteCategory()" class="danger-btn">Remover</button>
+      </div>
+    </div>
+  </div>
+  }
+
+  @if (confirmDeleteSongId) {
+  <div class="modal-overlay" (click)="cancelDeleteSong()">
+    <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+      <h2>Remover música do repertório?</h2>
+      <p>Essa ação não pode ser desfeita.</p>
+      <div class="modal-actions">
+        <button type="button" (click)="cancelDeleteSong()" class="outline-btn">Cancelar</button>
+        <button type="button" (click)="confirmDeleteSong()" class="danger-btn">Remover</button>
+      </div>
+    </div>
+  </div>
+  }
+  }
+
+  <app-footer></app-footer>
+</div>
