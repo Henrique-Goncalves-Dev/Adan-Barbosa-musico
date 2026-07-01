@@ -1,0 +1,207 @@
+<div class="page-wrapper">
+  <app-header></app-header>
+
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="hero-section">
+    <div class="bg-image-container">
+      <img [src]="heroImg" alt="Adan Barbosa apresentação" class="hero-img" />
+      <div class="overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="subtitle">Proximo Show</div>
+      <h1 class="main-title">12 JUL</h1>
+      <div class="location">Teatro Rival · Rio de Janeiro, RJ</div>
+      <a href="#" class="primary-btn hero-btn">Get Tickets</a>
+    </div>
+
+    <div class="scroll-hint">
+      <span class="scroll-text">Scroll</span>
+      <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
+        <rect x="6" y="2" width="4" height="8" rx="2" fill="currentColor" opacity="0.5" />
+        <path d="M8 18l-4-4h8l-4 4z" fill="currentColor" opacity="0.3" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- ── UPCOMING SHOWS ───────────────────────────────────────────── -->
+  <section class="shows-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Agenda</div>
+        <h2 class="section-title">Próximos Shows</h2>
+      </div>
+
+      <div class="shows-list">
+        @for (show of upcomingShows; track show.id) {
+        <div class="show-card">
+          <div class="show-date">
+            <span>{{ show.date }}</span>
+          </div>
+          <div class="show-details">
+            <div class="venue">{{ show.venue }}</div>
+            <div class="city">{{ show.city }}</div>
+          </div>
+          <app-ticket-button [outline]="true"></app-ticket-button>
+        </div>
+        }
+      </div>
+
+      <div class="action-center">
+        <a href="/shows" class="outline-btn">Ver mais shows</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BOOK A SHOW ─────────────────────────────────────────────── -->
+  <section id="agendamento" class="booking-section">
+    <div class="container split-grid">
+  
+      <div>
+        <div class="section-tag">Agendamento</div>
+        <h2 class="section-title">Agende seu Evento</h2>
+        <p class="section-description">
+          Leve a música ao vivo para o seu evento. Mariana oferece performances únicas, adaptadas ao ambiente e ao
+          público, com repertório personalizado.
+        </p>
+        <div class="event-types-list">
+          @for (type of eventTypes; track type.label) {
+          <div class="event-type-card">
+            <span class="icon">{{ type.icon }}</span>
+            <span class="label">{{ type.label }}</span>
+          </div>
+          }
+        </div>
+      </div>
+
+      <!-- Right Form -->
+      <div class="form-wrapper">
+        @if (formSent) {
+        <div class="success-message">
+          <div class="check-icon">✓</div>
+          <h3>Pedido enviado!</h3>
+          <p>Entraremos em contato em até 48 horas.</p>
+        </div>
+        } @else {
+        <form (ngSubmit)="onSubmit()" #bookingForm="ngForm" class="booking-form">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" name="name" placeholder="Seu nome completo" [(ngModel)]="formData.name" required
+              class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="seu@email.com" [(ngModel)]="formData.email" required
+              class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Tipo de Evento</label>
+            <select name="eventType" [(ngModel)]="formData.eventType" required class="form-input select-input">
+              <option value="">Selecione um tipo</option>
+              <option value="Corporate">Corporate</option>
+              <option value="Private">Private</option>
+              <option value="Festival">Festival</option>
+              <option value="Academic">Academic</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Data do Evento</label>
+            <input type="date" name="date" [(ngModel)]="formData.date" required class="form-input" />
+          </div>
+          <button type="submit" [disabled]="!bookingForm.form.valid" class="primary-btn submit-btn">
+            Agendar Show
+          </button>
+        </form>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ── MUSIC LESSONS ───────────────────────────────────────────── -->
+  <section id="aulas" class="lessons-section">
+    <div class="container split-grid align-center">
+    
+      <div class="image-wrapper">
+        <div class="aspect-box">
+          <img [src]="guitarImg" alt="Mariana playing guitar" />
+        </div>
+        <!-- <div class="badge-counter">
+          <div class="count">200+</div>
+          <div class="count-label">Alunos formados</div>
+        </div>  -->
+      </div>
+
+      
+      <div>
+        <div class="section-tag">Aulas</div>
+        <h2 class="section-title">Aprenda a tocar</h2>
+        <p class="section-description">
+          Aulas personalizadas para quem deseja aprender a tocar ou escrever as próprias músicas.
+        </p>
+        <ul class="benefits-list">
+          @for (benefit of lessonBenefits; track benefit) {
+          <li>
+            <div class="check-bullet">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6l3 3 5-5" stroke="#0055FF" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </div>
+            {{ benefit }}
+          </li>
+          }
+        </ul>
+        <div class="lessons-action-block">
+          <a href="#" class="primary-btn">Agende sua Aula</a>
+          <!-- <app-calendar-component></app-calendar-component> -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ──────────────────────────────────────────────────── -->
+  <section id="sobre" class="about-section">
+    <div class="container split-grid align-center">
+      <!-- Left Portrait -->
+      <div class="portrait-wrapper">
+        <img [src]="portraitImg" alt="Mariana Vale portrait" />
+      </div>
+
+      <!-- Right Bio -->
+      <div>
+        <div class="section-tag">Sobre</div>
+        <h2 class="section-title">Adan Barbosa</h2>
+        <div class="bio-paragraphs">
+          <p>
+            Adan Barbosa é músico, cantor, compositor e professor de violão, natural de Belém do Pará.
+            Sua jornada musical começou aos 13 anos e,
+            desde então, ele transforma a paixão pelas cordas em um constante processo de evolução artística e
+            educacional.
+          </p>
+          <p>
+            Atualmente, Adan consolida sua formação acadêmica na UFPA, onde cursa Licenciatura em Música, e na EMUFPA,
+            no Curso Técnico de Violão Popular.
+            Nos palcos de Belém, apresenta-se no formato voz e violão, entregando ao público releituras marcadas por
+            sensibilidade, autenticidade e um repertório que transita por clássicos e contemporâneos.
+          </p>
+          <p>
+            Sua identidade musical é um reflexo direto de suas vivências e referências, misturando a riqueza da MPB e da
+            música paraense com a energia do rock clássico britânico, do indie e do pop.
+          </p>
+        </div>
+        <div class="about-action">
+          <a href="https://www.instagram.com/adanrbarbosa?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+            target="_blank" rel="noopener noreferrer" class="insta-btn">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+            </svg>
+            Follow on Instagram
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <app-footer></app-footer>
+</div>

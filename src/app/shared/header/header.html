@@ -1,0 +1,42 @@
+<header class="header">
+  <div class="header-container">
+    <!-- Logo -->
+    <a routerLink="/" class="logo">
+      ADAN BARBOSA
+    </a>
+
+    <!-- Desktop Nav -->
+    <nav class="desktop-nav">
+      @for (link of navLinks; track link.label) {
+      <a [href]="link.href" class="nav-link" [class.active]="isActive(link.href)">
+        {{ link.label }}
+      </a>
+      }
+    </nav>
+
+    <!-- Mobile Hamburger Button -->
+    <button (click)="toggleMenu()" class="mobile-menu-btn" aria-label="Toggle menu">
+      <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+        @if (menuOpen) {
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+        } @else {
+        <line x1="4" y1="8" x2="20" y2="8" />
+        <line x1="4" y1="14" x2="20" y2="14" />
+        <line x1="4" y1="20" x2="20" y2="20" />
+        }
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu Drawer -->
+  @if (menuOpen) {
+  <div class="mobile-nav">
+    @for (link of navLinks; track link.label) {
+    <a [href]="link.href" (click)="menuOpen = false" class="mobile-link">
+      {{ link.label }}
+    </a>
+    }
+  </div>
+  }
+</header>

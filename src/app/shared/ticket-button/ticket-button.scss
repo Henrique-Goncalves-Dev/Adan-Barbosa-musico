@@ -1,0 +1,30 @@
+button {
+      padding: 10px 24px;
+      border-radius: 8px;
+      border: none;
+      background-color: #0055FF;
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      letter-spacing: 0.01em;
+
+      &:hover {
+        background-color: #0044DD;
+      }
+
+      &.outline {
+        padding: 8px 20px;
+        border: 1.5px solid #0055FF;
+        background-color: transparent;
+        color: #0055FF;
+
+        &.hovered {
+          background-color: #0055FF;
+          color: #FFFFFF;
+        }
+      }
+    }

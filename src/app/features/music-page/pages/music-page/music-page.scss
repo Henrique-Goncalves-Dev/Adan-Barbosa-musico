@@ -1,0 +1,220 @@
+$primary-color: #0055FF;
+$primary-hover: #0044DD;
+$text-dark: #121212;
+$bg-light: #F9F9F9;
+
+.page-wrapper {
+  min-height: 100vh;
+  background-color: #FFFFFF;
+}
+
+.hero-tag {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: $primary-color;
+  margin-bottom: 12px;
+}
+
+.section-heading {
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 800;
+  color: $text-dark;
+  letter-spacing: -0.02em;
+  margin: 0 0 40px;
+
+  &.margin-zero {
+    margin: 0;
+  }
+}
+
+/* ── PAGE HERO ───────────────────────────────────────────────────── */
+.page-hero {
+  background-color: $bg-light;
+  padding: 64px 0 48px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+
+  .hero-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+
+    .hero-title {
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 800;
+      color: $text-dark;
+      letter-spacing: -0.03em;
+      margin: 0;
+    }
+  }
+}
+
+/* ── ALL SHOWS LIST ──────────────────────────────────────────────── */
+.shows-list-section {
+  padding: 80px 0 100px;
+
+  .list-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .shows-table {
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+
+    .show-row {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 20px 28px;
+      border-top: 1px solid rgba(0, 0, 0, 0.07);
+      background-color: #FFFFFF;
+      transition: background-color 0.15s ease;
+      flex-wrap: wrap;
+
+      &:hover {
+        background-color: $bg-light;
+      }
+
+      &.no-border {
+        border-top: none;
+      }
+
+      .date-block {
+        min-width: 64px;
+        text-align: center;
+
+        .month {
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: $primary-color;
+          text-transform: uppercase;
+        }
+
+        .day {
+          font-size: 26px;
+          font-weight: 800;
+          color: $text-dark;
+          line-height: 1.1;
+        }
+      }
+
+      .vertical-divider {
+        width: 1px;
+        height: 36px;
+        background-color: rgba(0, 0, 0, 0.1);
+        flex-shrink: 0;
+      }
+
+      .info-block {
+        flex: 1;
+        min-width: 160px;
+
+        .venue {
+          font-size: 16px;
+          font-weight: 700;
+          color: $text-dark;
+          margin-bottom: 3px;
+        }
+
+        .city {
+          font-size: 13px;
+          color: #888;
+        }
+      }
+
+      .status-badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        flex-shrink: 0;
+
+        &.available {
+          background-color: rgba(0, 85, 255, 0.08);
+          color: $primary-color;
+          border: 1px solid rgba(0, 85, 255, 0.2);
+        }
+
+        &.sold-out {
+          background-color: rgba(0, 0, 0, 0.06);
+          color: #888;
+          border: 1px solid rgba(0, 0, 0, 0.12);
+        }
+      }
+
+      .cta-block {
+        width: 80px;
+        flex-shrink: 0;
+
+        .tickets-btn {
+          display: inline-block;
+          padding: 9px 20px;
+          border-radius: 8px;
+          background-color: $primary-color;
+          color: #FFFFFF;
+          font-size: 13px;
+          font-weight: 600;
+          text-decoration: none;
+          transition: background-color 0.15s;
+
+          &:hover {
+            background-color: $primary-hover;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* ── MUSIC PLAYER SECTION ────────────────────────────────────────── */
+.music-section {
+  background-color: $bg-light;
+  padding: 100px 0;
+
+  .music-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .music-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .global-platforms {
+      display: flex;
+      gap: 12px;
+
+      .follow-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        border-radius: 8px;
+        color: #FFFFFF;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+
+        &.spotify { background-color: #1DB954; }
+        &.apple { background-color: #FC3C44; }
+      }
+    }
+  }
+
+  .tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+  }
+}

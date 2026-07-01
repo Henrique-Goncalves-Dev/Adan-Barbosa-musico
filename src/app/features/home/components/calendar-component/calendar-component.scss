@@ -1,0 +1,96 @@
+.calendar-container {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.08);
+  max-width: 260px;
+  width: 100%;
+  box-sizing: border-box;
+
+  .calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+
+    .month-title {
+    Sherwood-font: 14px;
+      font-weight: 700;
+      color: #121212;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 8px;
+
+      .nav-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #666;
+        font-size: 16px;
+        padding: 0 4px;
+      }
+    }
+  }
+
+  .weekdays-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    margin-bottom: 8px;
+
+    .weekday-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #999;
+      padding: 4px 0;
+    }
+  }
+
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+
+    .day-slot {
+      text-align: center;
+      font-size: 12px;
+      padding: 5px 0;
+      border-radius: 6px;
+      color: #121212;
+      font-weight: 400;
+      cursor: pointer;
+
+      &.empty {
+        cursor: default;
+      }
+
+      &.booked {
+        background-color: #0055FF;
+        color: #FFFFFF;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .calendar-legend {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #0055FF;
+    }
+
+    .legend-text {
+      font-size: 11px;
+      color: #666;
+    }
+  }
+}

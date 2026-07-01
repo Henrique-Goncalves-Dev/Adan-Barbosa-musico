@@ -1,0 +1,32 @@
+<div class="calendar-container">
+  <div class="calendar-header">
+    <span class="month-title">Agosto 2024</span>
+    <div class="nav-buttons">
+      <button class="nav-btn">‹</button>
+      <button class="nav-btn">›</button>
+    </div>
+  </div>
+
+  <div class="weekdays-grid">
+    @for (day of days; track $index) {
+      <div class="weekday-label">{{ day }}</div>
+    }
+  </div>
+
+  <div class="days-grid">
+    @for (slot of calendarSlots; track $index) {
+      <div 
+        class="day-slot"
+        [class.empty]="!slot"
+        [class.booked]="isBooked(slot)"
+      >
+        {{ slot || '' }}
+      </div>
+    }
+  </div>
+
+  <div class="calendar-legend">
+    <div class="legend-dot"></div>
+    <span class="legend-text">Aulas disponíveis</span>
+  </div>
+</div>
