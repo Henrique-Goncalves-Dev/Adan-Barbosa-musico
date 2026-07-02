@@ -15,6 +15,7 @@ app.use(cors({
     'http://localhost:4000',
     'https://adanbarbosa.com.br',
     'https://www.adanbarbosa.com.br',
+    'https://adan-barbosa-musico.vercel.app/,'
   ],
   credentials: true,
 }));
