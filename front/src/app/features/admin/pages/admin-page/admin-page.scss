@@ -40,6 +40,11 @@ $mobile: 600px;
 .type-badge[data-type="single"] { background: rgba(76, 175, 80, 0.1); color: #2e7d32; }
 .type-badge[data-type="ep"] { background: rgba(255, 152, 0, 0.1); color: #e65100; }
 .type-badge[data-type="musica"] { background: rgba(156, 39, 176, 0.1); color: #7b1fa2; }
+.move-select {
+  padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary);
+  font-family: Inter, sans-serif; cursor: pointer; flex-shrink: 0;
+}
 .row-actions { display: flex; gap: 8px; flex-shrink: 0; }
 .icon-btn { padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid var(--border-color); background: var(--bg-card); cursor: pointer; font-family: Inter, sans-serif; transition: all 0.15s; }
 .icon-btn.edit-btn { color: var(--primary-color); border-color: rgba(0, 85, 255, 0.25); }

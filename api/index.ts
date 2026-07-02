@@ -297,6 +297,18 @@ app.post('/api/repertoire/categories', authMiddleware, async (req: any, res: any
   }
 });
 
+app.put('/api/repertoire/categories/:id', authMiddleware, async (req: any, res: any) => {
+  try {
+    const { doc, updateDoc } = await import('firebase/firestore');
+    const db = await getDb();
+    const { id, ...rest } = req.body;
+    await updateDoc(doc(db, 'repertoire', req.params.id), rest);
+    res.json({ id: req.params.id, ...rest });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 app.delete('/api/repertoire/categories/:id', authMiddleware, async (req: any, res: any) => {
   try {
     const { doc, deleteDoc } = await import('firebase/firestore');
@@ -336,6 +348,35 @@ app.delete('/api/repertoire/songs/:categoryId/:songId', authMiddleware, async (r
     const songs = (catData.songs || []).filter((s: any) => s.id !== req.params.songId);
     await updateDoc(doc(db, 'repertoire', req.params.categoryId), { songs });
     res.json({ success: true });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+app.put('/api/repertoire/songs/move', authMiddleware, async (req: any, res: any) => {
+  try {
+    const { doc, getDocs, collection, updateDoc } = await import('firebase/firestore');
+    const db = await getDb();
+    const { fromCategoryId, toCategoryId, songId } = req.body;
+    if (!fromCategoryId || !toCategoryId || !songId) {
+      res.status(400).json({ success: false, message: 'fromCategoryId, toCategoryId e songId são obrigatórios.' });
+      return;
+    }
+    const catSnap = await getDocs(collection(db, 'repertoire'));
+    const fromCat = catSnap.docs.find((d: any) => d.id === fromCategoryId);
+    const toCat = catSnap.docs.find((d: any) => d.id === toCategoryId);
+    if (!fromCat) { res.status(404).json({ success: false, message: 'Categoria de origem não encontrada.' }); return; }
+    if (!toCat) { res.status(404).json({ success: false, message: 'Categoria de destino não encontrada.' }); return; }
+    const fromData = fromCat.data();
+    const toData = toCat.data();
+    const song = (fromData.songs || []).find((s: any) => s.id === songId);
+    if (!song) { res.status(404).json({ success: false, message: 'Música não encontrada.' }); return; }
+    const updatedSong = { ...song, categoryId: toCategoryId };
+    const fromSongs = (fromData.songs || []).filter((s: any) => s.id !== songId);
+    const toSongs = [...(toData.songs || []), updatedSong];
+    await updateDoc(doc(db, 'repertoire', fromCategoryId), { songs: fromSongs });
+    await updateDoc(doc(db, 'repertoire', toCategoryId), { songs: toSongs });
+    res.json({ success: true, song: updatedSong });
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }

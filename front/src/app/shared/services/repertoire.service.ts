@@ -47,6 +47,15 @@ export class RepertoireService {
     if (res.ok) await this.fetchCategories();
   }
 
+  async updateCategory(id: string, data: Partial<RepertoireCategory>) {
+    const res = await fetch(`/api/repertoire/categories/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.getToken()}` },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) await this.fetchCategories();
+  }
+
   async addSong(song: Omit<RepertoireSong, 'id'>) {
     const res = await fetch('/api/repertoire/songs', {
       method: 'POST',
@@ -60,6 +69,15 @@ export class RepertoireService {
     const res = await fetch(`/api/repertoire/songs/${categoryId}/${songId}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${this.getToken()}` },
+    });
+    if (res.ok) await this.fetchCategories();
+  }
+
+  async moveSong(fromCategoryId: string, toCategoryId: string, songId: string) {
+    const res = await fetch('/api/repertoire/songs/move', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${this.getToken()}` },
+      body: JSON.stringify({ fromCategoryId, toCategoryId, songId }),
     });
     if (res.ok) await this.fetchCategories();
   }

@@ -169,6 +169,7 @@
             <span class="cat-count">{{ cat.songs.length }} músicas</span>
             <span class="expand-icon" [class.expanded]="isCategoryExpanded(cat.id)">▶</span>
             <div class="row-actions" (click)="$event.stopPropagation()">
+              <button type="button" (click)="openEditCategory(cat)" class="icon-btn edit-btn">Editar</button>
               <button type="button" (click)="openAddSong(cat.id)" class="icon-btn edit-btn">+ Música</button>
               <button type="button" (click)="askDeleteCategory(cat.id)" class="icon-btn delete-btn">Remover</button>
             </div>
@@ -184,6 +185,17 @@
               <div class="song-meta">
                 @if (song.key) { <span class="key-badge">{{ song.key }}</span> }
                 @if (song.capo) { <span class="capo-badge">Capo {{ song.capo }}</span> }
+                @if (movingSongId === song.id && movingFromCategoryId === cat.id) {
+                <select class="move-select" (change)="moveSong($any($event.target).value)">
+                  <option value="">Mover para...</option>
+                  @for (other of getOtherCategories(cat.id); track other.id) {
+                  <option [value]="other.id">{{ other.icon }} {{ other.name }}</option>
+                  }
+                </select>
+                <button type="button" (click)="cancelMoveSong()" class="icon-btn small">Cancelar</button>
+                } @else {
+                <button type="button" (click)="startMoveSong(cat.id, song.id)" class="icon-btn edit-btn small">Mover</button>
+                }
                 <button type="button" (click)="askDeleteSong(cat.id, song.id)" class="icon-btn delete-btn small">✕</button>
               </div>
             </div>
@@ -293,7 +305,7 @@
   <div class="modal-overlay" (click)="closeCategoryForm()">
     <div class="modal-content small-modal" (click)="$event.stopPropagation()">
       <button type="button" class="modal-close" (click)="closeCategoryForm()">✕</button>
-      <div class="modal-header"><h2>Nova Categoria</h2></div>
+      <div class="modal-header"><h2>{{ editingCategoryId ? 'Editar Categoria' : 'Nova Categoria' }}</h2></div>
       <form (ngSubmit)="saveCategory()" class="modal-form">
         <div class="form-row">
           <div class="form-group"><label>Ícone (emoji)</label><input type="text" [(ngModel)]="categoryForm.icon" name="icon" class="form-input" maxlength="4" /></div>
@@ -301,7 +313,7 @@
         </div>
         <div class="modal-actions">
           <button type="button" (click)="closeCategoryForm()" class="outline-btn">Cancelar</button>
-          <button type="submit" class="primary-btn">Criar</button>
+          <button type="submit" class="primary-btn">{{ editingCategoryId ? 'Salvar' : 'Criar' }}</button>
         </div>
       </form>
     </div>

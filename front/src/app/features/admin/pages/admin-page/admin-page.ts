@@ -11,6 +11,7 @@ import { SearchService, SearchResult } from '../../../../shared/services/search.
 import { Show } from '../../../../shared/services/show.model';
 import { Album } from '../../../../shared/services/album.model';
 import { Track } from '../../../../shared/services/track.model';
+import { RepertoireCategory } from '../../../../shared/services/repertoire.model';
 
 @Component({
   selector: 'app-admin-page',
@@ -59,6 +60,7 @@ export class AdminPage {
 
   // Repertoire
   categoryFormVisible = false;
+  editingCategoryId: string | null = null;
   categoryForm = { name: '', icon: '🎵' };
   songFormVisible = false;
   selectedCategoryId: string | null = null;
@@ -67,6 +69,8 @@ export class AdminPage {
   confirmDeleteSongId: string | null = null;
   searchQuery = '';
   expandedCategories: Record<string, boolean> = {};
+  movingSongId: string | null = null;
+  movingFromCategoryId: string | null = null;
 
   toggleCategory(id: string) {
     this.expandedCategories[id] = !this.expandedCategories[id];
@@ -185,14 +189,25 @@ export class AdminPage {
 
   // ── REPERTOIRE ──
   openAddCategory() {
+    this.editingCategoryId = null;
     this.categoryForm = { name: '', icon: '🎵' };
     this.categoryFormVisible = true;
   }
 
-  closeCategoryForm() { this.categoryFormVisible = false; }
+  openEditCategory(cat: RepertoireCategory) {
+    this.editingCategoryId = cat.id;
+    this.categoryForm = { name: cat.name, icon: cat.icon };
+    this.categoryFormVisible = true;
+  }
+
+  closeCategoryForm() { this.categoryFormVisible = false; this.editingCategoryId = null; }
 
   async saveCategory() {
-    await this.repertoire.addCategory(this.categoryForm.name, this.categoryForm.icon);
+    if (this.editingCategoryId) {
+      await this.repertoire.updateCategory(this.editingCategoryId, this.categoryForm);
+    } else {
+      await this.repertoire.addCategory(this.categoryForm.name, this.categoryForm.icon);
+    }
     this.closeCategoryForm();
   }
 
@@ -236,5 +251,27 @@ export class AdminPage {
       this.confirmDeleteCategoryId = null;
       this.confirmDeleteSongId = null;
     }
+  }
+
+  startMoveSong(categoryId: string, songId: string) {
+    this.movingFromCategoryId = categoryId;
+    this.movingSongId = songId;
+  }
+
+  cancelMoveSong() {
+    this.movingFromCategoryId = null;
+    this.movingSongId = null;
+  }
+
+  async moveSong(toCategoryId: string) {
+    if (this.movingFromCategoryId && this.movingSongId && toCategoryId) {
+      await this.repertoire.moveSong(this.movingFromCategoryId, toCategoryId, this.movingSongId);
+      this.movingFromCategoryId = null;
+      this.movingSongId = null;
+    }
+  }
+
+  getOtherCategories(currentId: string): RepertoireCategory[] {
+    return this.repertoire.categories().filter(c => c.id !== currentId);
   }
 }
