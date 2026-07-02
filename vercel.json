@@ -2,13 +2,6 @@
   "version": 2,
   "builds": [
     {
-      "src": "front/package.json",
-      "use": "@vercel/angular",
-      "config": {
-        "outputDirectory": "dist/Adan-Barbosa-musico/browser"
-      }
-    },
-    {
       "src": "back/api/*.ts",
       "use": "@vercel/node"
     }
@@ -17,6 +10,9 @@
     {
       "src": "/api/(.*)",
       "dest": "back/api/$1"
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
