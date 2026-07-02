@@ -22,10 +22,10 @@ export class Header {
   navLinks: NavLink[] = [
     { label: 'Repertório', href: '/repertorio' },
     { label: 'Discografia', href: '/shows' },
-    { label: 'Shows', href: '/#agendamento' },
+    { label: 'Agendamento', href: '/#agendamento' },
     { label: 'Aulas', href: '/#aulas' },
     { label: 'Sobre', href: '/#sobre' },
-    { label: 'Admin', href: '/admin' },
+    // { label: 'Admin', href: '/admin' },
   ];
 
   constructor() {
