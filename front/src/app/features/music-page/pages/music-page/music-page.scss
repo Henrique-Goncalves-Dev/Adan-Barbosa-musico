@@ -1,340 +1,85 @@
-$primary-color: #0055FF;
-$primary-hover: #0044DD;
-$text-dark: #121212;
-$bg-light: #F9F9F9;
 $mobile: 600px;
 
-.page-wrapper {
-  min-height: 100vh;
-  background-color: #FFFFFF;
-}
-
-.hero-tag {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: $primary-color;
-  margin-bottom: 12px;
-}
-
-.section-heading {
-  font-size: clamp(20px, 3vw, 28px);
-  font-weight: 800;
-  color: $text-dark;
-  letter-spacing: -0.02em;
-  margin: 0 0 40px;
-
-  &.margin-zero {
-    margin: 0;
+.page-wrapper { min-height: 100vh; background-color: var(--bg-primary); transition: background-color 0.3s ease; }
+.hero-tag { font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 12px; }
+.section-heading { font-size: clamp(20px, 3vw, 28px); font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin: 0 0 40px; &.margin-zero { margin: 0; } }
+.back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--primary-color); text-decoration: none; margin-bottom: 16px; transition: opacity 0.15s; &:hover { opacity: 0.7; } }
+.page-hero { background-color: var(--bg-secondary); padding: 64px 0 48px; border-bottom: 1px solid var(--border-color); transition: background-color 0.3s ease;
+  .hero-container { max-width: 1200px; margin: 0 auto; padding: 0 32px;
+    .hero-title { font-size: clamp(32px, 5vw, 56px); font-weight: 800; color: var(--text-primary); letter-spacing: -0.03em; margin: 0; }
   }
 }
-
-/* ── BACK BUTTON ──────────────────────────────────────────────────── */
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  color: $primary-color;
-  text-decoration: none;
-  margin-bottom: 16px;
-  transition: opacity 0.15s;
-
-  &:hover {
-    opacity: 0.7;
-  }
-}
-
-/* ── PAGE HERO ───────────────────────────────────────────────────── */
-.page-hero {
-  background-color: $bg-light;
-  padding: 64px 0 48px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-
-  .hero-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 32px;
-
-    .hero-title {
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 800;
-      color: $text-dark;
-      letter-spacing: -0.03em;
-      margin: 0;
-    }
-  }
-}
-
-/* ── ALL SHOWS LIST ──────────────────────────────────────────────── */
-.shows-list-section {
-  padding: 80px 0 100px;
-
-  .list-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  .shows-table {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 12px;
-    overflow: hidden;
-
+.shows-list-section { padding: 80px 0 100px;
+  .list-container { max-width: 900px; margin: 0 auto; padding: 0 32px; }
+  .shows-table { border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: border-color 0.3s ease;
     .show-row {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      padding: 20px 28px;
-      border-top: 1px solid rgba(0, 0, 0, 0.07);
-      background-color: #FFFFFF;
-      transition: background-color 0.15s ease;
-      flex-wrap: wrap;
-
-      &:hover {
-        background-color: $bg-light;
+      display: flex; align-items: center; gap: 24px; padding: 20px 28px;
+      border-top: 1px solid var(--border-color); background-color: var(--bg-card);
+      transition: background-color 0.15s ease; flex-wrap: wrap;
+      &:hover { background-color: var(--hover-bg); }
+      &.no-border { border-top: none; }
+      .date-block { min-width: 64px; text-align: center;
+        .month { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; color: var(--primary-color); text-transform: uppercase; }
+        .day { font-size: 26px; font-weight: 800; color: var(--text-primary); line-height: 1.1; }
       }
-
-      &.no-border {
-        border-top: none;
+      .vertical-divider { width: 1px; height: 36px; background-color: var(--divider); flex-shrink: 0; }
+      .info-block { flex: 1; min-width: 160px;
+        .venue { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; }
+        .city { font-size: 13px; color: var(--text-tertiary); }
       }
-
-      .date-block {
-        min-width: 64px;
-        text-align: center;
-
-        .month {
-          font-size: 10px;
-          font-weight: 700;
-          letter-spacing: 0.1em;
-          color: $primary-color;
-          text-transform: uppercase;
-        }
-
-        .day {
-          font-size: 26px;
-          font-weight: 800;
-          color: $text-dark;
-          line-height: 1.1;
-        }
+      .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em; flex-shrink: 0;
+        &.available { background-color: var(--success-bg); color: var(--primary-color); border: 1px solid rgba(0, 85, 255, 0.2); }
+        &.sold-out { background-color: var(--hover-bg); color: var(--text-tertiary); border: 1px solid var(--border-color); }
       }
-
-      .vertical-divider {
-        width: 1px;
-        height: 36px;
-        background-color: rgba(0, 0, 0, 0.1);
-        flex-shrink: 0;
-      }
-
-      .info-block {
-        flex: 1;
-        min-width: 160px;
-
-        .venue {
-          font-size: 16px;
-          font-weight: 700;
-          color: $text-dark;
-          margin-bottom: 3px;
-        }
-
-        .city {
-          font-size: 13px;
-          color: #888;
-        }
-      }
-
-      .status-badge {
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        flex-shrink: 0;
-
-        &.available {
-          background-color: rgba(0, 85, 255, 0.08);
-          color: $primary-color;
-          border: 1px solid rgba(0, 85, 255, 0.2);
-        }
-
-        &.sold-out {
-          background-color: rgba(0, 0, 0, 0.06);
-          color: #888;
-          border: 1px solid rgba(0, 0, 0, 0.12);
-        }
-      }
-
-      .cta-block {
-        width: 80px;
-        flex-shrink: 0;
-
-        .tickets-btn {
-          display: inline-block;
-          padding: 9px 20px;
-          border-radius: 8px;
-          background-color: $primary-color;
-          color: #FFFFFF;
-          font-size: 13px;
-          font-weight: 600;
-          text-decoration: none;
-          transition: background-color 0.15s;
-
-          &:hover {
-            background-color: $primary-hover;
-          }
-        }
-      }
+      .cta-block { width: 80px; flex-shrink: 0; }
     }
   }
 }
-
-/* ── MUSIC PLAYER SECTION ────────────────────────────────────────── */
-.music-section {
-  background-color: $bg-light;
-  padding: 100px 0;
-
-  .music-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  .music-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 48px;
-    flex-wrap: wrap;
-    gap: 16px;
-
-    .global-platforms {
-      display: flex;
-      gap: 12px;
-
-      .follow-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 18px;
-        border-radius: 8px;
-        color: #FFFFFF;
-        font-size: 13px;
-        font-weight: 700;
-        text-decoration: none;
-
+.music-section { background-color: var(--bg-secondary); padding: 100px 0; transition: background-color 0.3s ease;
+  .music-container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .music-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 16px;
+    .global-platforms { display: flex; gap: 12px;
+      .follow-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 8px; color: #fff; font-size: 13px; font-weight: 700; text-decoration: none;
         &.spotify { background-color: #1DB954; }
         &.apple { background-color: #FC3C44; }
       }
     }
   }
-
-  .tracks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 24px;
-  }
+  .tracks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
 }
-
-/* ── RESPONSIVE ───────────────────────────────────────────────────── */
-@media (max-width: $mobile) {
-  .page-hero {
-    padding: 48px 0 36px;
-
-    .hero-container {
-      padding: 0 20px;
-    }
-  }
-
-  .shows-list-section {
-    padding: 48px 0 64px;
-
-    .list-container {
-      padding: 0 16px;
-    }
-
-    .shows-table {
-      border-radius: 8px;
-
-      .show-row {
-        padding: 16px;
-        gap: 12px;
-      }
-
-      .info-block {
-        min-width: 120px;
-
-        .venue {
-          font-size: 14px;
-        }
-      }
-
-      .cta-block {
-        width: auto;
-
-        .tickets-btn {
-          padding: 7px 14px;
-          font-size: 12px;
-        }
-      }
-    }
-  }
-
-  .music-section {
-    padding: 60px 0;
-
-    .music-container {
-      padding: 0 20px;
-    }
-
-    .music-header {
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 32px;
-    }
-
-    .tracks-grid {
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 16px;
-    }
-  }
-}
-
-/* ── ALBUMS & TRACKS ──────────────────────────────────────────────── */
-.subsection-heading {
-  font-size: 20px; font-weight: 800; color: $text-dark;
-  margin: 0 0 24px;
-}
+.subsection-heading { font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 0 0 24px; }
 .albums-section { margin-bottom: 48px; }
-.albums-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;
-}
-.album-card {
-  background: #fff; border-radius: 8px; padding: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  .album-name { font-size: 16px; font-weight: 700; color: $text-dark; margin-bottom: 4px; }
-  .album-year { font-size: 13px; color: #888; margin-bottom: 12px; }
+.albums-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+.album-card { background: var(--bg-card); border-radius: 8px; padding: 20px; box-shadow: var(--shadow); transition: background-color 0.3s ease;
+  .album-name { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .album-year { font-size: 13px; color: var(--text-tertiary); margin-bottom: 12px; }
   .album-links { display: flex; gap: 8px; }
 }
 .tracks-section { margin-bottom: 24px; }
-.track-card {
-  background: #fff; border-radius: 8px; padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  .track-type {
-    display: inline-block; padding: 3px 8px; border-radius: 4px;
-    font-size: 11px; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.05em; margin-bottom: 8px;
-    background: rgba(0, 85, 255, 0.1); color: $primary-color;
-  }
-  .track-name { font-size: 15px; font-weight: 700; color: $text-dark; margin-bottom: 4px; }
-  .track-album { font-size: 13px; color: #888; margin-bottom: 8px; }
+.track-card { background: var(--bg-card); border-radius: 8px; padding: 16px; box-shadow: var(--shadow); transition: background-color 0.3s ease;
+  .track-type { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; background: var(--success-bg); color: var(--primary-color); }
+  .track-name { font-size: 15px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+  .track-album { font-size: 13px; color: var(--text-tertiary); margin-bottom: 8px; }
   .track-links { display: flex; gap: 8px; }
 }
-.link-badge {
-  display: inline-block; padding: 4px 10px; border-radius: 4px;
-  font-size: 11px; font-weight: 700; text-decoration: none; color: #fff;
+.link-badge { display: inline-block; padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; text-decoration: none; color: #fff;
   &.youtube { background: #FF0000; }
   &.spotify { background: #1DB954; }
 }
-.show-row .street { font-size: 12px; color: #aaa; }
+.show-row .street { font-size: 12px; color: var(--text-quaternary); }
+.details-btn { padding: 8px 18px; border-radius: 8px; border: 1.5px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); font-size: 13px; font-weight: 600; cursor: pointer; font-family: Inter, sans-serif; transition: all 0.15s; &:hover { border-color: var(--primary-color); color: var(--primary-color); } }
+.modal-overlay { position: fixed; inset: 0; background: var(--modal-overlay); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 24px; animation: fadeIn 0.2s ease; }
+.modal-content { background: var(--bg-card); border-radius: 12px; padding: 40px; max-width: 480px; width: 100%; position: relative; box-shadow: var(--shadow-lg); animation: slideUp 0.25s ease; transition: background-color 0.3s ease; }
+.modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; cursor: pointer; color: var(--text-quaternary); font-size: 20px; padding: 4px; transition: color 0.2s; &:hover { color: var(--text-primary); } }
+.modal-header { margin-bottom: 24px; }
+.details-grid { display: flex; flex-direction: column; gap: 16px; }
+.detail-item { display: flex; flex-direction: column; gap: 4px; }
+.detail-label { font-size: 12px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
+.detail-value { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+.status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+.status-badge.available { background: var(--success-bg); color: var(--primary-color); border: 1px solid rgba(0, 85, 255, 0.2); }
+.status-badge.sold-out { background: var(--hover-bg); color: var(--text-tertiary); border: 1px solid var(--border-color); }
+.status-badge.finished { background: rgba(255, 152, 0, 0.1); color: #e65100; border: 1px solid rgba(255, 152, 0, 0.25); }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: $mobile) { .page-hero { padding: 48px 0 36px; .hero-container { padding: 0 20px; } } .shows-list-section { padding: 48px 0 64px; .list-container { padding: 0 16px; } .shows-table { border-radius: 8px; .show-row { padding: 16px; gap: 12px; } .info-block { min-width: 120px; .venue { font-size: 14px; } } .cta-block { width: auto; } } } .music-section { padding: 60px 0; .music-container { padding: 0 20px; } .music-header { flex-direction: column; align-items: flex-start; margin-bottom: 32px; } .tracks-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; } } }

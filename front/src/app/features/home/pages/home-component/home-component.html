@@ -1,7 +1,7 @@
 <div class="page-wrapper">
   <app-header></app-header>
 
-  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <!-- HERO -->
   <section class="hero-section">
     <div class="bg-image-container">
       <img [src]="heroImg" alt="Adan Barbosa apresentação" class="hero-img" />
@@ -13,11 +13,11 @@
       @if (nextShow(); as show) {
       <h1 class="main-title">{{ show.day }} {{ show.month }}</h1>
       <div class="location">{{ show.venue }} · {{ show.city }}</div>
+      <button type="button" (click)="openShowDetails(show)" class="primary-btn hero-btn">Informações</button>
       } @else {
       <h1 class="main-title">Em breve</h1>
       <div class="location">Novos shows serão anunciados</div>
       }
-      <a href="/shows" class="primary-btn hero-btn">Informações</a>
     </div>
 
     <div class="scroll-hint">
@@ -29,7 +29,7 @@
     </div>
   </section>
 
-  <!-- ── UPCOMING SHOWS ───────────────────────────────────────────── -->
+  <!-- UPCOMING SHOWS -->
   <section class="shows-section">
     <div class="container">
       <div class="section-header">
@@ -47,7 +47,7 @@
             <div class="venue">{{ show.venue }}</div>
             <div class="city">{{ show.city }}</div>
           </div>
-          <app-ticket-button [outline]="true"></app-ticket-button>
+          <button type="button" (click)="openShowDetails(show)" class="outline-btn details-btn">Detalhes</button>
         </div>
         }
         @if (upcomingShows().length === 0) {
@@ -61,10 +61,9 @@
     </div>
   </section>
 
-  <!-- ── BOOK A SHOW ─────────────────────────────────────────────── -->
+  <!-- BOOK A SHOW -->
   <section id="agendamento" class="booking-section">
     <div class="container split-grid">
-  
       <div>
         <div class="section-tag">Agendamento</div>
         <h2 class="section-title">Agende seu show</h2>
@@ -82,7 +81,6 @@
         </div>
       </div>
 
-      <!-- Right CTA -->
       <div class="form-wrapper">
         <div class="whatsapp-cta">
           <div class="whatsapp-icon">
@@ -91,30 +89,29 @@
             </svg>
           </div>
           <h3>Agende seu Show</h3>
-          <p>Fale diretamente com o Adan Barbosa pelo WhatsApp para agendar seu evento.</p>
-          <button type="button" (click)="sendShowWhatsApp()" class="primary-btn whatsapp-btn">
-            Agendar pelo WhatsApp
-          </button>
+          <p>Fale diretamente com o Adan Barbosa pelo WhatsApp ou envie um e-mail para agendar seu evento.</p>
+          <div class="cta-buttons">
+            <button type="button" (click)="sendShowWhatsApp()" class="primary-btn whatsapp-btn">
+              Agendar pelo WhatsApp
+            </button>
+            <button type="button" (click)="sendShowEmail()" class="outline-btn email-btn">
+              Enviar E-mail
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── MUSIC LESSONS ───────────────────────────────────────────── -->
+  <!-- MUSIC LESSONS -->
   <section id="aulas" class="lessons-section">
     <div class="container split-grid align-center">
-    
       <div class="image-wrapper">
         <div class="aspect-box">
           <img [src]="guitarImg" alt="Adan Barbosa guitar" />
         </div>
-        <!-- <div class="badge-counter">
-          <div class="count">200+</div>
-          <div class="count-label">Alunos formados</div>
-        </div>  -->
       </div>
 
-      
       <div>
         <div class="section-tag">Aulas</div>
         <h2 class="section-title">Aprenda a tocar</h2>
@@ -141,15 +138,13 @@
     </div>
   </section>
 
-  <!-- ── ABOUT ──────────────────────────────────────────────────── -->
+  <!-- ABOUT -->
   <section id="sobre" class="about-section">
     <div class="container split-grid align-center">
-      <!-- Left Portrait -->
       <div class="portrait-wrapper">
         <img [src]="portraitImg" alt="Adan Barbosa portrait" />
       </div>
 
-      <!-- Right Bio -->
       <div>
         <div class="section-tag">Sobre</div>
         <h2 class="section-title">Adan Barbosa</h2>
@@ -185,16 +180,11 @@
     </div>
   </section>
 
-  <!-- ── LESSON MODAL ─────────────────────────────────────────────── -->
+  <!-- LESSON MODAL -->
   @if (showLessonModal) {
   <div class="modal-overlay" (click)="closeLessonModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-      <button type="button" class="modal-close" (click)="closeLessonModal()">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
+      <button type="button" class="modal-close" (click)="closeLessonModal()">✕</button>
       <div class="modal-header">
         <div class="section-tag">Aulas</div>
         <h2 class="section-title">Agende sua Aula</h2>
@@ -206,15 +196,57 @@
           <input type="text" name="lessonName" placeholder="Seu nome completo" [(ngModel)]="lessonData.name" required
             class="form-input" />
         </div>
-        <!-- <div class="form-group">
-          <label>WhatsApp</label>
-          <input type="tel" name="lessonPhone" placeholder="(00) 00000-0000" [(ngModel)]="lessonData.phone" required
-            class="form-input" />
-        </div> -->
         <button type="submit" [disabled]="!lessonData.name" class="primary-btn submit-btn">
           Enviar pelo WhatsApp
         </button>
       </form>
+    </div>
+  </div>
+  }
+
+  <!-- SHOW DETAILS MODAL -->
+  @if (showDetailsModal && selectedShow) {
+  <div class="modal-overlay" (click)="closeShowDetails()">
+    <div class="modal-content details-modal" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close" (click)="closeShowDetails()">✕</button>
+      <div class="modal-header">
+        <div class="section-tag">Show</div>
+        <h2 class="section-title">{{ selectedShow.venue }}</h2>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item">
+          <div class="detail-label">Data</div>
+          <div class="detail-value">{{ selectedShow.day }}/{{ selectedShow.month }}/{{ selectedShow.year }}</div>
+        </div>
+        @if (selectedShow.time) {
+        <div class="detail-item">
+          <div class="detail-label">Horário</div>
+          <div class="detail-value">{{ selectedShow.time }}</div>
+        </div>
+        }
+        <div class="detail-item">
+          <div class="detail-label">Cidade</div>
+          <div class="detail-value">{{ selectedShow.city }}</div>
+        </div>
+        @if (selectedShow.street) {
+        <div class="detail-item">
+          <div class="detail-label">Endereço</div>
+          <div class="detail-value">{{ selectedShow.street }}</div>
+        </div>
+        }
+        <div class="detail-item">
+          <div class="detail-label">Status</div>
+          <div class="detail-value">
+            @if (selectedShow.status === 'finalizado') {
+            <span class="status-badge finished">Finalizado</span>
+            } @else {
+            <span class="status-badge" [class.available]="selectedShow.available" [class.sold-out]="!selectedShow.available">
+              {{ selectedShow.available ? 'Disponível' : 'Esgotado' }}
+            </span>
+            }
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   }

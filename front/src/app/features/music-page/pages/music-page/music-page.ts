@@ -5,6 +5,7 @@ import { Header } from "../../../../shared/header/header";
 import { ShowsService } from "../../../../shared/services/shows.service";
 import { AlbumsService } from "../../../../shared/services/albums.service";
 import { TracksService } from "../../../../shared/services/tracks.service";
+import { Show } from "../../../../shared/services/show.model";
 
 @Component({
   selector: 'app-music-page',
@@ -20,4 +21,17 @@ export class MusicPage {
   allShows = this.showsService.shows;
   albums = this.albumsService.albums;
   tracks = this.tracksService.tracks;
+
+  selectedShow: Show | null = null;
+  showDetailsModal = false;
+
+  openShowDetails(show: Show) {
+    this.selectedShow = show;
+    this.showDetailsModal = true;
+  }
+
+  closeShowDetails() {
+    this.showDetailsModal = false;
+    this.selectedShow = null;
+  }
 }

@@ -25,13 +25,15 @@
               <div class="city">{{ show.city }}{{ show.time ? ' · ' + show.time : '' }}</div>
               @if (show.street) { <div class="street">{{ show.street }}</div> }
             </div>
+            @if (show.status === 'finalizado') {
+            <div class="status-badge finished">Finalizado</div>
+            } @else {
             <div class="status-badge" [class.available]="show.available" [class.sold-out]="!show.available">
               {{ show.available ? 'Disponível' : 'Esgotado' }}
             </div>
+            }
             <div class="cta-block">
-              @if (show.available) {
-                <a href="#" class="tickets-btn">Tickets</a>
-              }
+              <button type="button" (click)="openShowDetails(show)" class="details-btn">Detalhes</button>
             </div>
           </div>
         }
@@ -104,6 +106,53 @@
       }
     </div>
   </section>
+
+  <!-- SHOW DETAILS MODAL -->
+  @if (showDetailsModal && selectedShow) {
+  <div class="modal-overlay" (click)="closeShowDetails()">
+    <div class="modal-content details-modal" (click)="$event.stopPropagation()">
+      <button type="button" class="modal-close" (click)="closeShowDetails()">✕</button>
+      <div class="modal-header">
+        <div class="hero-tag">Show</div>
+        <h2 class="section-heading">{{ selectedShow.venue }}</h2>
+      </div>
+      <div class="details-grid">
+        <div class="detail-item">
+          <div class="detail-label">Data</div>
+          <div class="detail-value">{{ selectedShow.day }}/{{ selectedShow.month }}/{{ selectedShow.year }}</div>
+        </div>
+        @if (selectedShow.time) {
+        <div class="detail-item">
+          <div class="detail-label">Horário</div>
+          <div class="detail-value">{{ selectedShow.time }}</div>
+        </div>
+        }
+        <div class="detail-item">
+          <div class="detail-label">Cidade</div>
+          <div class="detail-value">{{ selectedShow.city }}</div>
+        </div>
+        @if (selectedShow.street) {
+        <div class="detail-item">
+          <div class="detail-label">Endereço</div>
+          <div class="detail-value">{{ selectedShow.street }}</div>
+        </div>
+        }
+        <div class="detail-item">
+          <div class="detail-label">Status</div>
+          <div class="detail-value">
+            @if (selectedShow.status === 'finalizado') {
+            <span class="status-badge finished">Finalizado</span>
+            } @else {
+            <span class="status-badge" [class.available]="selectedShow.available" [class.sold-out]="!selectedShow.available">
+              {{ selectedShow.available ? 'Disponível' : 'Esgotado' }}
+            </span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
 
   <app-footer></app-footer>
 </div>

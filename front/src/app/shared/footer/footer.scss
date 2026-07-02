@@ -1,158 +1,157 @@
-$footer-bg: #121212;
-$primary-color: #0055FF;
-
 .footer {
-    background-color: $footer-bg;
-    color: #FFFFFF;
-    padding: 72px 0 40px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 72px 0 40px;
+  border-top: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
 
-    .footer-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 32px;
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 48px;
+    margin-bottom: 64px;
+  }
+
+  .brand-box {
+    .brand-title {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
     }
 
-    .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 48px;
-        margin-bottom: 64px;
+    .brand-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 220px;
+      margin: 0;
+    }
+  }
+
+  .column-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .links-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .footer-link {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--text-primary);
+      }
+    }
+  }
+
+  .newsletter-box {
+    .newsletter-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 16px;
     }
 
-    .brand-box {
-        .brand-title {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            margin-bottom: 12px;
+    .success-message {
+      font-size: 14px;
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+
+      .newsletter-input {
+        flex: 1;
+        min-width: 160px;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border-input);
+        background-color: var(--input-bg);
+        color: var(--text-primary);
+        font-size: 14px;
+        outline: none;
+        box-sizing: border-box;
+      }
+
+      .newsletter-btn {
+        padding: 10px 18px;
+        border-radius: 8px;
+        background-color: var(--primary-color);
+        border: none;
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background-color 0.2s;
+
+        &:hover:not(:disabled) {
+          background-color: var(--primary-hover);
         }
 
-        .brand-text {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.55);
-            line-height: 1.7;
-            max-width: 220px;
-            margin: 0;
+        &:disabled {
+          background-color: var(--disabled-bg);
+          cursor: not-allowed;
         }
+      }
+    }
+  }
+
+  .bottom-bar {
+    padding-top: 32px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+
+    .copyright {
+      font-size: 13px;
+      color: var(--text-tertiary);
     }
 
-    .column-title {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        color: rgba(255, 255, 255, 0.4);
-        text-transform: uppercase;
-        margin-bottom: 20px;
-    }
+    .social-wrapper {
+      display: flex;
+      gap: 12px;
 
-    .links-stack {
+      .social-btn {
         display: flex;
-        flex-direction: column;
-        gap: 12px;
-
-        .footer-link {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.2s ease;
-
-            &:hover {
-                color: #FFFFFF;
-            }
-        }
-    }
-
-    .newsletter-box {
-        .newsletter-text {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.55);
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .success-message {
-            font-size: 14px;
-            color: $primary-color;
-            font-weight: 600;
-        }
-
-        .newsletter-form {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-
-            .newsletter-input {
-                flex: 1;
-                min-width: 160px;
-                padding: 10px 14px;
-                border-radius: 8px;
-                border: 1px solid rgba(255, 255, 255, 0.15);
-                background-color: rgba(255, 255, 255, 0.08);
-                color: #FFFFFF;
-                font-size: 14px;
-                outline: none;
-                box-sizing: border-box;
-            }
-
-            .newsletter-btn {
-                padding: 10px 18px;
-                border-radius: 8px;
-                background-color: $primary-color;
-                border: none;
-                color: #FFFFFF;
-                font-size: 14px;
-                font-weight: 600;
-                cursor: pointer;
-                white-space: nowrap;
-                transition: background-color 0.2s;
-
-                &:hover:not(:disabled) {
-                    background-color: #0044DD;
-                }
-
-                &:disabled {
-                    background-color: #555555;
-                    cursor: not-allowed;
-                }
-            }
-        }
-    }
-
-    .bottom-bar {
-        padding-top: 32px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        display: flex;
-        justify-content: space-between;
         align-items: center;
-        flex-wrap: wrap;
-        gap: 16px;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background-color: var(--hover-bg);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+        cursor: pointer;
 
-        .copyright {
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.4);
+        &:hover {
+          background-color: var(--border-color);
         }
-
-        .social-wrapper {
-            display: flex;
-            gap: 12px;
-
-            .social-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 40px;
-                height: 40px;
-                border-radius: 8px;
-                background-color: rgba(255, 255, 255, 0.08);
-                color: #FFFFFF;
-                text-decoration: none;
-                transition: background-color 0.2s ease;
-                cursor: pointer;
-
-                &:hover {
-                    background-color: rgba(255, 255, 255, 0.15);
-                }
-            }
-        }
+      }
     }
+  }
 }

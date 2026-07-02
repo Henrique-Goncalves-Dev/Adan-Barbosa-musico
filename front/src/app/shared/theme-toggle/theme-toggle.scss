@@ -1,0 +1,20 @@
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border-color);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+
+  &:hover {
+    background: var(--hover-bg);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+  }
+}

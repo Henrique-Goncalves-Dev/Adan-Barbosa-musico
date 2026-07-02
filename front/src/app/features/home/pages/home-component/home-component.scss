@@ -1,25 +1,17 @@
-// 2. VARIÁVEIS DO SISTEMA DE DESIGN
-$primary-color: #0055FF;
-$primary-hover: #0044DD;
-$text-dark: #121212;
-$bg-light: #F9F9F9;
-$font-family: 'Inter', sans-serif;
-
-// 3. REGRAS GLOBAIS / RESET (Para aplicar em todo o ciclo do app)
 :host {
   display: block;
-  font-family: $font-family;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 .page-wrapper {
   min-height: 100vh;
-  background-color: #FFFFFF;
-  font-family: $font-family;
+  background-color: var(--bg-primary);
+  font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s ease;
 }
 
-// 4. ESTILOS DE LAYOUT REUTILIZÁVEIS
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -31,99 +23,47 @@ $font-family: 'Inter', sans-serif;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 80px;
-
-  &.align-center {
-    align-items: center;
-  }
-  &.align-start {
-    align-items: start;
-  }
+  &.align-center { align-items: center; }
+  &.align-start { align-items: start; }
 }
 
 .section-tag {
-  font-family: $font-family;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: $primary-color;
-  margin-bottom: 12px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--primary-color); margin-bottom: 12px;
 }
 
 .section-title {
-  font-family: $font-family;
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 800;
-  color: $text-dark;
-  letter-spacing: -0.02em;
-  margin: 0 0 16px;
+  font-size: clamp(28px, 4vw, 40px); font-weight: 800;
+  color: var(--text-primary); letter-spacing: -0.02em; margin: 0 0 16px;
 }
 
 .section-description {
-  font-family: $font-family;
-  font-size: 16px;
-  color: #555;
-  line-height: 1.7;
-  margin-bottom: 36px;
+  font-size: 16px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 36px;
 }
 
-// 5. COMPONENTES DE BOTÕES
 .primary-btn {
-  font-family: $font-family;
-  display: inline-block;
-  padding: 14px 32px;
-  border-radius: 8px;
-  background-color: $primary-color;
-  color: #FFFFFF;
-  font-size: 15px;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: 0.01em;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-
-  &:hover {
-    background-color: $primary-hover;
-  }
+  display: inline-block; padding: 14px 32px; border-radius: 8px;
+  background-color: var(--primary-color); color: #fff; font-size: 15px;
+  font-weight: 700; text-decoration: none; border: none; cursor: pointer;
+  font-family: 'Inter', sans-serif; transition: background-color 0.2s ease, transform 0.1s ease;
+  &:hover { background-color: var(--primary-hover); }
 }
 
 .outline-btn {
-  font-family: $font-family;
-  display: inline-block;
-  padding: 12px 32px;
-  border-radius: 8px;
-  border: 1.5px solid rgba(18, 18, 18, 0.2);
-  background-color: transparent;
-  color: $text-dark;
-  font-size: 14px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: border-color 0.2s, color 0.2s;
-  letter-spacing: 0.01em;
-
-  &:hover {
-    border-color: $text-dark;
-  }
+  display: inline-block; padding: 12px 32px; border-radius: 8px;
+  border: 1.5px solid var(--border-color); background-color: transparent;
+  color: var(--text-primary); font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: border-color 0.2s, color 0.2s;
+  letter-spacing: 0.01em; font-family: 'Inter', sans-serif;
+  &:hover { border-color: var(--text-primary); }
 }
 
-// 6. FORMULÁRIOS
 .form-input {
-  font-family: $font-family;
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
-  border: 1.5px solid rgba(0, 0, 0, 0.12);
-  background-color: #FFFFFF;
-  color: $text-dark;
-  font-size: 14px;
-  outline: none; // Corrigido de 'none' string para propriedade CSS nativa
-  box-sizing: border-box;
-  transition: border-color 0.2s;
-
-  &:focus {
-    border-color: $primary-color;
-  }
+  width: 100%; padding: 12px 14px; border-radius: 8px;
+  border: 1.5px solid var(--border-input); background-color: var(--input-bg);
+  color: var(--text-primary); font-size: 14px; font-family: 'Inter', sans-serif;
+  outline: none; box-sizing: border-box; transition: border-color 0.2s;
+  &:focus { border-color: var(--primary-color); }
 }
 
 .hero-section {
@@ -149,18 +89,20 @@ $font-family: 'Inter', sans-serif;
 }
 
 .shows-section {
-  background-color: $bg-light; padding: 100px 0;
+  background-color: var(--bg-secondary); padding: 100px 0;
+  transition: background-color 0.3s ease;
   .section-header { margin-bottom: 48px; }
   .shows-list {
     display: flex; flex-direction: column; gap: 16px; margin-bottom: 48px;
     .show-card {
-      background-color: #fff; border-radius: 8px; padding: 24px 28px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-      .show-date { min-width: 72px; font-size: 18px; font-weight: 800; color: $primary-color; letter-spacing: -0.01em; }
+      background-color: var(--bg-card); border-radius: 8px; padding: 24px 28px;
+      box-shadow: var(--shadow); display: flex; align-items: center;
+      justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      .show-date { min-width: 72px; font-size: 18px; font-weight: 800; color: var(--primary-color); letter-spacing: -0.01em; }
       .show-details { flex: 1;
-        .venue { font-size: 16px; font-weight: 700; color: $text-dark; margin-bottom: 4px; }
-        .city { font-size: 14px; color: #666; }
+        .venue { font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; }
+        .city { font-size: 14px; color: var(--text-secondary); }
       }
     }
   }
@@ -168,102 +110,101 @@ $font-family: 'Inter', sans-serif;
 }
 
 .booking-section {
-  background-color: #fff; padding: 100px 0;
-
+  background-color: var(--bg-primary); padding: 100px 0;
+  transition: background-color 0.3s ease;
   .event-types-list {
     display: flex; flex-direction: column; gap: 16px;
     .event-type-card {
       display: flex; align-items: center; gap: 14px;
       padding: 14px 18px; border-radius: 8px;
-      border: 1px solid rgba(0, 0, 0, 0.07); background-color: $bg-light;
+      border: 1px solid var(--border-color); background-color: var(--bg-secondary);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
       .icon { font-size: 20px; }
-      .label { font-size: 15px; font-weight: 600; color: $text-dark; }
+      .label { font-size: 15px; font-weight: 600; color: var(--text-primary); }
     }
   }
-
   .form-wrapper {
-    background-color: $bg-light; border-radius: 12px;
-    padding: 40px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    box-sizing: border-box;
+    background-color: var(--bg-secondary); border-radius: 12px;
+    padding: 40px; box-shadow: var(--shadow); box-sizing: border-box;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
 }
 
 .lessons-section {
-  background-color: $bg-light; padding: 100px 0;
-
+  background-color: var(--bg-secondary); padding: 100px 0;
+  transition: background-color 0.3s ease;
   .image-wrapper {
     position: relative;
-    .aspect-box {
-      border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 5;
-      img { width: 100%; height: 100%; object-fit: cover; }
-    }
+    .aspect-box { border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 5; img { width: 100%; height: 100%; object-fit: cover; } }
   }
-
   .benefits-list {
     list-style: none; padding: 0; margin: 0 0 40px;
     display: flex; flex-direction: column; gap: 12px;
     li {
       display: flex; align-items: center; gap: 12px;
-      font-size: 15px; color: #333;
+      font-size: 15px; color: var(--text-primary);
       .check-bullet {
         width: 22px; height: 22px; border-radius: 50%;
-        background-color: rgba(0, 85, 255, 0.1);
-        display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        background-color: var(--success-bg); display: flex;
+        align-items: center; justify-content: center; flex-shrink: 0;
       }
     }
   }
-
   .lessons-action-block { display: flex; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
 }
 
 .about-section {
-  background-color: #fff; padding: 100px 0;
+  background-color: var(--bg-primary); padding: 100px 0;
+  transition: background-color 0.3s ease;
   .portrait-wrapper {
     border-radius: 12px; overflow: hidden; aspect-ratio: 3 / 4; max-width: 440px;
     img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
   }
   .bio-paragraphs {
     display: flex; flex-direction: column; gap: 16px;
-    p { font-size: 16px; color: #444; line-height: 1.8; margin: 0; }
+    p { font-size: 16px; color: var(--text-secondary); line-height: 1.8; margin: 0; }
   }
   .about-action {
     margin-top: 40px;
     .insta-btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 12px 24px; border-radius: 8px;
-      border: 1.5px solid $text-dark; background-color: transparent;
-      color: $text-dark; font-size: 14px; font-weight: 600;
+      border: 1.5px solid var(--text-primary); background-color: transparent;
+      color: var(--text-primary); font-size: 14px; font-weight: 600;
       text-decoration: none; transition: all 0.2s;
-      &:hover { background-color: $text-dark; color: #fff; }
+      &:hover { background-color: var(--text-primary); color: var(--bg-primary); }
     }
   }
 }
 
 .whatsapp-cta {
   text-align: center;
-  h3 { font-family: $font-family; font-size: 22px; font-weight: 800; color: $text-dark; margin: 0 0 12px; }
-  p { font-family: $font-family; font-size: 15px; color: #555; line-height: 1.6; margin: 0 0 28px; }
+  h3 { font-size: 22px; font-weight: 800; color: var(--text-primary); margin: 0 0 12px; }
+  p { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin: 0 0 28px; }
+  .cta-buttons { display: flex; flex-direction: column; gap: 12px; }
   .whatsapp-btn { width: 100%; }
+  .email-btn { width: 100%; text-align: center; }
   .whatsapp-icon { margin-bottom: 20px; }
 }
 
 .modal-overlay {
-  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.5);
+  position: fixed; inset: 0; background-color: var(--modal-overlay);
   display: flex; align-items: center; justify-content: center;
   z-index: 1000; padding: 24px; animation: fadeIn 0.2s ease;
 }
 
 .modal-content {
-  background-color: #fff; border-radius: 12px; padding: 40px;
+  background-color: var(--bg-card); border-radius: 12px; padding: 40px;
   max-width: 480px; width: 100%; position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); animation: slideUp 0.25s ease;
+  box-shadow: var(--shadow-lg); animation: slideUp 0.25s ease;
+  transition: background-color 0.3s ease;
 }
 
 .modal-close {
   position: absolute; top: 16px; right: 16px; background: none;
-  border: none; cursor: pointer; color: #999; padding: 4px;
+  border: none; cursor: pointer; color: var(--text-quaternary); padding: 4px;
   border-radius: 4px; transition: color 0.2s;
-  &:hover { color: $text-dark; }
+  &:hover { color: var(--text-primary); }
 }
 
 .modal-header {
@@ -276,13 +217,25 @@ $font-family: 'Inter', sans-serif;
 .modal-form {
   display: flex; flex-direction: column; gap: 20px;
   .form-group label {
-    display: block; font-family: $font-family; font-size: 13px;
-    font-weight: 600; color: $text-dark; margin-bottom: 8px;
+    display: block; font-size: 13px;
+    font-weight: 600; color: var(--text-primary); margin-bottom: 8px;
   }
   .submit-btn { width: 100%; margin-top: 4px;
-    &:disabled { background-color: #ccc; cursor: not-allowed; }
+    &:disabled { background-color: var(--disabled-bg); cursor: not-allowed; }
   }
 }
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.details-btn { padding: 10px 20px; font-size: 13px; }
+.details-modal { max-width: 480px; }
+.details-grid { display: flex; flex-direction: column; gap: 16px; }
+.detail-item { display: flex; flex-direction: column; gap: 4px; }
+.detail-label { font-size: 12px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.08em; }
+.detail-value { font-size: 16px; font-weight: 600; color: var(--text-primary); }
+.status-badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; }
+.status-badge.available { background: var(--success-bg); color: var(--primary-color); border: 1px solid rgba(0, 85, 255, 0.2); }
+.status-badge.sold-out { background: var(--hover-bg); color: var(--text-tertiary); border: 1px solid var(--border-color); }
+.status-badge.finished { background: rgba(255, 152, 0, 0.1); color: #e65100; border: 1px solid rgba(255, 152, 0, 0.25); }
+.empty-shows { padding: 24px; text-align: center; color: var(--text-quaternary); font-size: 15px; }

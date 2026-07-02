@@ -1,13 +1,13 @@
 import { Component, inject, computed } from '@angular/core';
 import { Footer } from "../../../../shared/footer/footer";
-import { TicketButton } from "../../../../shared/ticket-button/ticket-button";
 import { Header } from "../../../../shared/header/header";
 import { FormsModule } from '@angular/forms';
 import { ShowsService } from "../../../../shared/services/shows.service";
+import { Show } from "../../../../shared/services/show.model";
 
 @Component({
   selector: 'app-home-component',
-  imports: [Footer, TicketButton, Header, FormsModule],
+  imports: [Footer, Header, FormsModule],
   templateUrl: './home-component.html',
   styleUrl: './home-component.scss',
 })
@@ -18,9 +18,10 @@ export class HomeComponent {
   portraitImg = './assets/Adan-Sobre-Voce.jpeg';
 
   private whatsappNumber = '5591981408622';
+  private email = 'adanrbarbosa10@gmail.com';
 
-  upcomingShows = computed(() => this.showsService.shows().slice(0, 3));
-  nextShow = computed(() => this.showsService.shows()[0] ?? null);
+  upcomingShows = computed(() => this.showsService.shows().filter(s => s.available).slice(0, 3));
+  nextShow = computed(() => this.showsService.shows().find(s => s.available) ?? null);
 
   eventTypes = [
     { icon: '🏢', label: 'Público' },
@@ -39,6 +40,9 @@ export class HomeComponent {
   showLessonModal = false;
   lessonData = { name: '', phone: '' };
 
+  selectedShow: Show | null = null;
+  showDetailsModal = false;
+
   openLessonModal() {
     this.showLessonModal = true;
     this.lessonData = { name: '', phone: '' };
@@ -48,9 +52,25 @@ export class HomeComponent {
     this.showLessonModal = false;
   }
 
+  openShowDetails(show: Show) {
+    this.selectedShow = show;
+    this.showDetailsModal = true;
+  }
+
+  closeShowDetails() {
+    this.showDetailsModal = false;
+    this.selectedShow = null;
+  }
+
   sendShowWhatsApp() {
     const message = encodeURIComponent('Olá! Gostaria de agendar um show com Adan Barbosa.');
     window.open(`https://wa.me/${this.whatsappNumber}?text=${message}`, '_blank');
+  }
+
+  sendShowEmail() {
+    const subject = encodeURIComponent('Agendamento de Show - Adan Barbosa');
+    const body = encodeURIComponent('Olá! Gostaria de agendar um show com Adan Barbosa.\n\nPor favor, entrem em contato para mais informações.');
+    window.open(`mailto:${this.email}?subject=${subject}&body=${body}`, '_blank');
   }
 
   sendLessonWhatsApp() {

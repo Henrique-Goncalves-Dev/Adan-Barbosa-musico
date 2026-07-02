@@ -1,6 +1,67 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9F9F9;
+  --bg-card: #FFFFFF;
+  --text-primary: #121212;
+  --text-secondary: #666666;
+  --text-tertiary: #888888;
+  --text-quaternary: #999999;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-light: rgba(0, 0, 0, 0.04);
+  --border-input: rgba(0, 0, 0, 0.12);
+  --primary-color: #0055FF;
+  --primary-hover: #0044DD;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+  --modal-overlay: rgba(0, 0, 0, 0.5);
+  --header-bg: rgba(255, 255, 255, 0.55);
+  --input-bg: #FFFFFF;
+  --hover-bg: rgba(0, 0, 0, 0.04);
+  --disabled-bg: #cccccc;
+  --error-bg: #fff0f0;
+  --error-text: #d32f2f;
+  --error-border: rgba(211, 47, 47, 0.15);
+  --success-bg: rgba(0, 85, 255, 0.08);
+  --divider: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --bg-primary: #121212;
+  --bg-secondary: #1E1E1E;
+  --bg-card: #2A2A2A;
+  --text-primary: #F0F0F0;
+  --text-secondary: #AAAAAA;
+  --text-tertiary: #777777;
+  --text-quaternary: #666666;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-light: rgba(255, 255, 255, 0.05);
+  --border-input: rgba(255, 255, 255, 0.12);
+  --primary-color: #B8924A;
+  --primary-hover: #A07D3A;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
+  --modal-overlay: rgba(0, 0, 0, 0.7);
+  --header-bg: rgba(18, 18, 18, 0.85);
+  --input-bg: #2A2A2A;
+  --hover-bg: rgba(255, 255, 255, 0.06);
+  --disabled-bg: #444444;
+  --error-bg: rgba(211, 47, 47, 0.15);
+  --error-text: #ff6b6b;
+  --error-border: rgba(211, 47, 47, 0.3);
+  --success-bg: rgba(184, 146, 74, 0.15);
+  --divider: rgba(255, 255, 255, 0.1);
+}
+
 body {
-    margin: 0;
-    font-family: "Inter", sans-serif;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }

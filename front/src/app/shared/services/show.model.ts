@@ -8,4 +8,5 @@ export interface Show {
   venue: string;
   time: string;
   available: boolean;
+  status?: string;
 }

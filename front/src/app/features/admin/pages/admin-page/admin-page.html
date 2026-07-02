@@ -70,9 +70,13 @@
                 <div class="city">{{ show.city }} · {{ show.year }}{{ show.time ? ' · ' + show.time : '' }}</div>
                 @if (show.street) { <div class="street">{{ show.street }}</div> }
               </div>
+              @if (show.status === 'finalizado') {
+              <div class="status-badge finished">Finalizado</div>
+              } @else {
               <div class="status-badge" [class.available]="show.available" [class.sold-out]="!show.available">
                 {{ show.available ? 'Disponível' : 'Esgotado' }}
               </div>
+              }
               <div class="row-actions">
                 <button type="button" (click)="openEditShow(show)" class="icon-btn edit-btn">Editar</button>
                 <button type="button" (click)="askDeleteShow(show.id)" class="icon-btn delete-btn">Remover</button>
@@ -88,7 +92,6 @@
       <!-- ═══ TAB: DISCOGRAFIA ═══ -->
       @if (activeTab === 'discografia') {
       <div class="tab-content">
-        <!-- Álbuns -->
         <div class="tab-header">
           <h2>Álbuns</h2>
           <button type="button" (click)="openAddAlbum()" class="primary-btn">+ Novo Álbum</button>
@@ -116,7 +119,6 @@
         </div>
         }
 
-        <!-- Músicas -->
         <div class="tab-header" style="margin-top: 48px;">
           <h2>Músicas</h2>
           <button type="button" (click)="openAddTrack()" class="primary-btn">+ Nova Música</button>
@@ -161,16 +163,17 @@
         } @else {
         @for (cat of repertoire.categories(); track cat.id) {
         <div class="category-block">
-          <div class="category-header">
+          <div class="category-header" (click)="toggleCategory(cat.id)">
             <span class="cat-icon">{{ cat.icon }}</span>
             <span class="cat-name">{{ cat.name }}</span>
             <span class="cat-count">{{ cat.songs.length }} músicas</span>
-            <div class="row-actions">
+            <span class="expand-icon" [class.expanded]="isCategoryExpanded(cat.id)">▶</span>
+            <div class="row-actions" (click)="$event.stopPropagation()">
               <button type="button" (click)="openAddSong(cat.id)" class="icon-btn edit-btn">+ Música</button>
               <button type="button" (click)="askDeleteCategory(cat.id)" class="icon-btn delete-btn">Remover</button>
             </div>
           </div>
-          @if (cat.songs.length > 0) {
+          @if (isCategoryExpanded(cat.id) && cat.songs.length > 0) {
           <div class="songs-sublist">
             @for (song of cat.songs; track song.id) {
             <div class="song-row">
@@ -203,31 +206,24 @@
       <div class="modal-header"><h2>{{ editingShowId ? 'Editar Show' : 'Novo Show' }}</h2></div>
       <form (ngSubmit)="saveShow()" class="modal-form">
         <div class="form-row">
-          <div class="form-group"><label>Mês</label>
+          <div class="form-group"><label>Mês *</label>
             <select [(ngModel)]="showForm.month" name="month" required class="form-input">
               <option value="">Selecione</option>
               @for (m of months; track m.value) { <option [value]="m.value">{{ m.label }}</option> }
             </select>
           </div>
-          <div class="form-group"><label>Dia</label><input type="text" [(ngModel)]="showForm.day" name="day" placeholder="12" required class="form-input" /></div>
-          <div class="form-group"><label>Ano</label><input type="text" [(ngModel)]="showForm.year" name="year" placeholder="2026" required class="form-input" /></div>
+          <div class="form-group"><label>Dia *</label><input type="text" [(ngModel)]="showForm.day" name="day" placeholder="12" required class="form-input" /></div>
+          <div class="form-group"><label>Ano *</label><input type="text" [(ngModel)]="showForm.year" name="year" placeholder="2026" required class="form-input" /></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label>Cidade</label><input type="text" [(ngModel)]="showForm.city" name="city" placeholder="Belém" required class="form-input" /></div>
-          <div class="form-group"><label>Horário</label><input type="time" [(ngModel)]="showForm.time" name="time" class="form-input" /></div>
+          <div class="form-group"><label>Cidade *</label><input type="text" [(ngModel)]="showForm.city" name="city" placeholder="Belém" required class="form-input" /></div>
+          <div class="form-group"><label>Horário *</label><input type="time" [(ngModel)]="showForm.time" name="time" required class="form-input" /></div>
         </div>
-        <div class="form-group"><label>Local</label><input type="text" [(ngModel)]="showForm.venue" name="venue" placeholder="Parque da Cidade" required class="form-input" /></div>
+        <div class="form-group"><label>Local *</label><input type="text" [(ngModel)]="showForm.venue" name="venue" placeholder="Parque da Cidade" required class="form-input" /></div>
         <div class="form-group"><label>Rua / Endereço</label><input type="text" [(ngModel)]="showForm.street" name="street" placeholder="Av...." class="form-input" /></div>
-        <div class="form-group toggle-group">
-          <label class="toggle-label">
-            <input type="checkbox" [(ngModel)]="showForm.available" name="available" />
-            <span class="toggle-switch"></span>
-            <span>Disponível para venda</span>
-          </label>
-        </div>
         <div class="modal-actions">
           <button type="button" (click)="closeShowForm()" class="outline-btn">Cancelar</button>
-          <button type="submit" class="primary-btn">{{ editingShowId ? 'Salvar' : 'Adicionar' }}</button>
+          <button type="submit" class="primary-btn" [disabled]="!isShowFormValid">{{ editingShowId ? 'Salvar' : 'Adicionar' }}</button>
         </div>
       </form>
     </div>
@@ -356,7 +352,7 @@
     <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
       <h2>Remover show?</h2>
       <p>Essa ação não pode ser desfeita.</p>
-      <div class="modal-actions">
+      <div class="modal-actions center">
         <button type="button" (click)="cancelDeleteShow()" class="outline-btn">Cancelar</button>
         <button type="button" (click)="confirmDeleteShow()" class="danger-btn">Remover</button>
       </div>
@@ -369,7 +365,7 @@
     <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
       <h2>Remover álbum?</h2>
       <p>Essa ação não pode ser desfeita.</p>
-      <div class="modal-actions">
+      <div class="modal-actions center">
         <button type="button" (click)="cancelDeleteAlbum()" class="outline-btn">Cancelar</button>
         <button type="button" (click)="confirmDeleteAlbum()" class="danger-btn">Remover</button>
       </div>
@@ -382,7 +378,7 @@
     <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
       <h2>Remover música?</h2>
       <p>Essa ação não pode ser desfeita.</p>
-      <div class="modal-actions">
+      <div class="modal-actions center">
         <button type="button" (click)="cancelDeleteTrack()" class="outline-btn">Cancelar</button>
         <button type="button" (click)="confirmDeleteTrack()" class="danger-btn">Remover</button>
       </div>
@@ -395,7 +391,7 @@
     <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
       <h2>Remover categoria?</h2>
       <p>Todas as músicas desta categoria serão removidas.</p>
-      <div class="modal-actions">
+      <div class="modal-actions center">
         <button type="button" (click)="cancelDeleteCategory()" class="outline-btn">Cancelar</button>
         <button type="button" (click)="confirmDeleteCategory()" class="danger-btn">Remover</button>
       </div>
@@ -408,7 +404,7 @@
     <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
       <h2>Remover música do repertório?</h2>
       <p>Essa ação não pode ser desfeita.</p>
-      <div class="modal-actions">
+      <div class="modal-actions center">
         <button type="button" (click)="cancelDeleteSong()" class="outline-btn">Cancelar</button>
         <button type="button" (click)="confirmDeleteSong()" class="danger-btn">Remover</button>
       </div>

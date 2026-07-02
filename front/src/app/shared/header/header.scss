@@ -1,13 +1,11 @@
-$primary-color: #0055FF;
-$text-dark: #121212;
-
 .header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.55);
+  background-color: var(--header-bg);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 
   .header-container {
     max-width: 1200px;
@@ -20,13 +18,14 @@ $text-dark: #121212;
   }
 
   .logo {
-    color: #121212;
+    color: var(--text-primary);
     font-family: Inter, sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 800;
     line-height: 18px;
     letter-spacing: -0.54px;
+    text-decoration: none;
   }
 
   .desktop-nav {
@@ -41,7 +40,7 @@ $text-dark: #121212;
     .nav-link {
       text-decoration: none;
       transition: color 0.2s ease;
-      color: #121212;
+      color: var(--text-primary);
       font-family: Inter, sans-serif;
       font-size: 14px;
       font-style: normal;
@@ -51,14 +50,18 @@ $text-dark: #121212;
 
       &:hover,
       &.active {
-        color: $primary-color;
-
+        color: var(--primary-color);
       }
     }
   }
 
   .mobile-menu-btn {
     display: none;
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 4px;
   }
 
   .mobile-balloon-nav {
@@ -78,9 +81,9 @@ $text-dark: #121212;
       flex-shrink: 0;
       padding: 7px 14px;
       border-radius: 8px;
-      background: rgba(242, 242, 242, 0.55);
+      background: var(--hover-bg);
       backdrop-filter: blur(12px);
-      color: $text-dark;
+      color: var(--text-primary);
       font-size: 14px;
       font-weight: 500;
       text-decoration: none;
@@ -88,9 +91,8 @@ $text-dark: #121212;
       transition: background 0.15s;
 
       &:hover {
-        background: #E5E5E5;
+        background: var(--border-color);
       }
-
     }
 
     @media (max-width: 768px) {

@@ -11,7 +11,6 @@ import { SearchService, SearchResult } from '../../../../shared/services/search.
 import { Show } from '../../../../shared/services/show.model';
 import { Album } from '../../../../shared/services/album.model';
 import { Track } from '../../../../shared/services/track.model';
-import { RepertoireCategory } from '../../../../shared/services/repertoire.model';
 
 @Component({
   selector: 'app-admin-page',
@@ -67,6 +66,20 @@ export class AdminPage {
   confirmDeleteCategoryId: string | null = null;
   confirmDeleteSongId: string | null = null;
   searchQuery = '';
+  expandedCategories: Record<string, boolean> = {};
+
+  toggleCategory(id: string) {
+    this.expandedCategories[id] = !this.expandedCategories[id];
+  }
+
+  isCategoryExpanded(id: string): boolean {
+    return this.expandedCategories[id] ?? false;
+  }
+
+  get isShowFormValid(): boolean {
+    const f = this.showForm;
+    return !!(f.month && f.day && f.year && f.city && f.venue && f.time);
+  }
 
   async login() {
     await this.auth.login(this.username, this.password);
@@ -91,6 +104,7 @@ export class AdminPage {
   closeShowForm() { this.showFormVisible = false; this.editingShowId = null; }
 
   async saveShow() {
+    if (!this.isShowFormValid) return;
     if (this.editingShowId) {
       await this.shows.update(this.editingShowId, this.showForm);
     } else {

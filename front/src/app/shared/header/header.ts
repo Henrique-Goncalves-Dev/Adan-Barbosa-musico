@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
+import { ThemeToggle } from '../theme-toggle/theme-toggle';
 
 interface NavLink {
   label: string;
@@ -9,7 +10,7 @@ interface NavLink {
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, ThemeToggle],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
@@ -29,7 +30,7 @@ export class Header {
   ];
 
   constructor() {
-    // Escuta as mudanças de rota para atualizar o estado visual ativo
+
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
