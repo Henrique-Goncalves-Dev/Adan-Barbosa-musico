@@ -1,22 +1,16 @@
 {
   "version": 2,
-  "builds": [
+  "buildCommand": "cd front && npm install && npx ng build",
+  "outputDirectory": "front/dist/Adan-Barbosa-musico/browser",
+  "installCommand": "npm install",
+  "rewrites": [
     {
-      "src": "back/api/*.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "back/api/$1"
+      "source": "/api/(.*)",
+      "destination": "/api"
     },
     {
-      "handle": "filesystem"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "front/$1"
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
     }
   ]
 }
