@@ -1,6 +1,6 @@
 import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc, query, orderBy } from '../firebase';
+import { db, collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from '../firebase';
 
 const router = Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
@@ -16,12 +16,21 @@ interface Show {
   venue: string;
   time: string;
   available: boolean;
+  status?: string;
 }
 
 const MONTH_ORDER: Record<string, number> = {
   JAN: 1, FEV: 2, MAR: 3, ABR: 4, MAI: 5, JUN: 6,
   JUL: 7, AGO: 8, SET: 9, OUT: 10, NOV: 11, DEZ: 12,
 };
+
+function isShowPast(show: Show): boolean {
+  const now = new Date();
+  const monthNum = MONTH_ORDER[show.month];
+  if (!monthNum) return false;
+  const showDate = new Date(parseInt(show.year), monthNum - 1, parseInt(show.day));
+  return showDate < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+}
 
 function sortShows(shows: Show[]): Show[] {
   return [...shows].sort((a, b) => {
@@ -51,7 +60,14 @@ router.get('/shows', async (_req: Request, res: Response) => {
   try {
     const snap = await getDocs(collection(db, COL));
     const shows = snap.docs.map((d) => ({ id: d.id, ...d.data() })) as Show[];
-    res.json(sortShows(shows));
+    const now = new Date();
+    const updated = shows.map((s) => {
+      if (isShowPast(s) && s.available) {
+        return { ...s, available: false, status: 'finalizado' };
+      }
+      return s;
+    });
+    res.json(sortShows(updated));
   } catch (err: any) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -68,6 +84,7 @@ router.post('/shows', authMiddleware, async (req: Request, res: Response) => {
       venue: req.body.venue || '',
       time: req.body.time || '',
       available: req.body.available ?? true,
+      status: '',
     };
     const docRef = await addDoc(collection(db, COL), data);
     res.status(201).json({ id: docRef.id, ...data });

@@ -1,17 +1,13 @@
-import dotenv from 'dotenv';
-dotenv.config();
-
 import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth';
-import showsRoutes from './routes/shows';
-import albumsRoutes from './routes/albums';
-import tracksRoutes from './routes/tracks';
-import repertoireRoutes from './routes/repertoire';
-import searchRoutes from './routes/search';
+import authRoutes from '../src/routes/auth';
+import showsRoutes from '../src/routes/shows';
+import albumsRoutes from '../src/routes/albums';
+import tracksRoutes from '../src/routes/tracks';
+import repertoireRoutes from '../src/routes/repertoire';
+import searchRoutes from '../src/routes/search';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(cors({
   origin: [
@@ -36,6 +32,4 @@ app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, () => {
-  console.log(`API rodando em http://localhost:${PORT}`);
-});
+export default app;

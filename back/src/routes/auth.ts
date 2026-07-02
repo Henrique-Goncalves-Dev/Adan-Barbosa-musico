@@ -1,13 +1,12 @@
 import { Router, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { users } from '../data/users';
+import { db, collection, getDocs } from '../firebase';
 
 const router = Router();
-
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
-const JWT_EXPIRES_IN = 86400;
+const JWT_EXPIRES_IN = 1800;
 
-router.post('/auth', (req: Request, res: Response) => {
+router.post('/auth', async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -15,25 +14,34 @@ router.post('/auth', (req: Request, res: Response) => {
     return;
   }
 
-  const user = users[username];
+  try {
+    const snap = await getDocs(collection(db, 'users'));
+    const user = snap.docs.find((d) => {
+      const data = d.data();
+      return data.username === username && data.password === password;
+    });
 
-  if (!user || user.password !== password) {
-    res.status(401).json({ success: false, message: 'Usuário ou senha inválidos.' });
-    return;
+    if (!user) {
+      res.status(401).json({ success: false, message: 'Usuário ou senha inválidos.' });
+      return;
+    }
+
+    const userData = user.data();
+    const token = jwt.sign(
+      { username: userData.username, displayName: userData.displayName },
+      JWT_SECRET,
+      { expiresIn: JWT_EXPIRES_IN }
+    );
+
+    res.json({
+      success: true,
+      token,
+      username: userData.username,
+      displayName: userData.displayName,
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Erro ao autenticar.' });
   }
-
-  const token = jwt.sign(
-    { username: user.username, displayName: user.displayName },
-    JWT_SECRET,
-    { expiresIn: JWT_EXPIRES_IN }
-  );
-
-  res.json({
-    success: true,
-    token,
-    username: user.username,
-    displayName: user.displayName,
-  });
 });
 
 router.get('/auth/verify', (req: Request, res: Response) => {

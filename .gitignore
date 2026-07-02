@@ -18,6 +18,22 @@ yarn-error.log
 # Environment
 /back/.env
 
+# Security - Firebase & Auth
+/back/src/firebase.ts
+/back/src/data/users.ts
+/back/src/seed.ts
+
+# Firebase data (local backups)
+/back/src/data/*.json
+
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Vercel
+.vercel/
+
 # Angular cache
 /.angular/cache
 /front/.angular/cache
@@ -53,3 +69,4 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
+

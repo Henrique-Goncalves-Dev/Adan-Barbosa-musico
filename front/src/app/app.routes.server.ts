@@ -7,11 +7,11 @@ export const serverRoutes: ServerRoute[] = [
   },
   {
     path: 'shows',
-    renderMode: RenderMode.Prerender
+    renderMode: RenderMode.Client
   },
   {
     path: 'repertorio',
-    renderMode: RenderMode.Prerender
+    renderMode: RenderMode.Client
   },
   {
     path: 'admin',
